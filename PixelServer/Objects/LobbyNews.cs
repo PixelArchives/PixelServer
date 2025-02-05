@@ -33,6 +33,4 @@ public class LobbyNews
     /// <summary>Translated category</summary>
     /// <remarks>Language Name | text</remarks>
     public Dictionary<string, string> category { get; set; } = new();
-
-    public int @fixed { get; set; }
 }
