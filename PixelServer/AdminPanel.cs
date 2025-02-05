@@ -6,7 +6,7 @@ public static class AdminPanel
 {
     public static async Task Run()
     {
-        Console.WriteLine("Input ? for help.");
+        Console.WriteLine("Input '?' for help.");
 
         while (true)
         {
@@ -21,6 +21,7 @@ public static class AdminPanel
     private static async Task<string> OnCommand(string? command)
     {
         if (string.IsNullOrEmpty(command)) return "Command is null or empty.";
-        return "";
+
+        return "Unknown command, input '?' for help";
     }
 }
