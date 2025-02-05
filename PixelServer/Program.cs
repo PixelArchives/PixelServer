@@ -26,9 +26,9 @@ public class Program
 
         app.MapControllers();
 
-        var appTask = app.RunAsync();
-
         AdminPanel.Run();
+
+        app.Run();
     }
 
     private static async Task InitDatabase()
