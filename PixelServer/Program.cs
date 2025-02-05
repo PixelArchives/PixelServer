@@ -1,5 +1,6 @@
 using MySqlConnector;
 using PixelServer.Helpers;
+using System.Diagnostics;
 
 namespace PixelServer;
 
@@ -10,26 +11,34 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://127.0.0.2");
 
-        builder.Logging
-            .ClearProviders()
-            .SetMinimumLevel(LogLevel.Warning);
+        builder.Logging.ClearProviders();
 
+        // makes it case sensetive because FilterBadWords.json was returning lowercase value names which broke the game.
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null; // Keeps PascalCase
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
-        builder.Logging.AddSimpleConsole();
-
-        DebugHelper.logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("Global");
-
-        await Db.Init();
+        await InitDatabase();
 
         var app = builder.Build();
 
         app.MapControllers();
 
-        app.Run();
+        var appTask = app.RunAsync();
+
+        AdminPanel.Run();
+    }
+
+    private static async Task InitDatabase()
+    {
+        Stopwatch watch = Stopwatch.StartNew();
+        DebugHelper.Log("Initing Databese", false);
+
+        await Db.Init();
+
+        watch.Stop();
+        DebugHelper.Log($"Database Inited, time: {watch.Elapsed}", false);
     }
 }

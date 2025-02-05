@@ -8,13 +8,6 @@ namespace PixelServer.Controllers;
 [Route(Settings.mainRoute)]
 public class MainController
 {
-    private readonly ILogger<MainController> logger;
-
-    public MainController(ILogger<MainController> logger)
-    {
-        this.logger = logger;
-    }
-
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
