@@ -6,22 +6,20 @@ public static class AdminPanel
 {
     public static async Task Run()
     {
-        Console.WriteLine("Input '?' for help.");
+        DebugHelper.Log("Input '?' for help.");
 
         while (true)
         {
             string? input = Console.ReadLine();
 
-            string response = await OnCommand(input);
-
-            DebugHelper.Log(response);
+            await OnCommand(input);
         }
     }
 
-    private static async Task<string> OnCommand(string? command)
+    private static async Task OnCommand(string? command)
     {
-        if (string.IsNullOrEmpty(command)) return "Command is null or empty.";
+        if (string.IsNullOrEmpty(command)) DebugHelper.Log("Command is null or empty.");
 
-        return "Unknown command, input '?' for help";
+        DebugHelper.Log("Unknown command, input '?' for help");
     }
 }

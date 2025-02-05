@@ -4,7 +4,7 @@ namespace PixelServer.Helpers;
 
 public static class DebugHelper
 {
-    public static void Log(string message, bool skipLine = true)
+    public static void Log(string message, bool skipLine = false)
     {
         if (string.IsNullOrEmpty(message)) return;
 
@@ -26,6 +26,6 @@ public static class DebugHelper
         log += $"token={form.token}\n";
         log += "----- End\n";
 
-        Console.WriteLine(log);
+        Log(log, true);
     }
 }
