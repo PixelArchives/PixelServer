@@ -1,0 +1,44 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using PixelServer.Helpers;
+using PixelServer.Objects;
+
+namespace PixelServer.Controllers;
+
+[ApiController]
+[Route(Settings.mainRoute)]
+public class MainController
+{
+    private readonly ILogger<MainController> logger;
+
+    public MainController(ILogger<MainController> logger)
+    {
+        this.logger = logger;
+    }
+
+    [Route("action.php")]
+    public async Task<string> Action([FromForm] ActionForm form)
+    {
+        DebugHelper.Log(form);
+
+        switch (form.action)
+        {
+            case "check_version":
+                return VersionHelper.IsValid(form.app_version) ? "valid" : "no";
+
+            case "check_shop_version":
+                return VersionHelper.IsValid(form.app_version) ? "valid" : "no";
+
+            case "create_player_intent":
+                return await AccountHelper.CreateAccountToken();
+
+            case "create_player":
+                long id = await AccountHelper.CreateAccount(form.token);
+                return id.ToString();
+
+            case "start_check": 
+                return await AccountHelper.AccountExists(form.uniq_id) ? "exists" : "fail";
+        }
+
+        return "fail";
+    }
+}
