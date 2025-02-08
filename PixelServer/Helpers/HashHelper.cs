@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
 namespace PixelServer.Helpers;
 
@@ -9,22 +10,24 @@ public static class HashHelper
 {
     private const string pass = "pI}{eLG4nS()()P3R53CREt";
 
-    private static HMAC hmac = new HMACSHA1(Encoding.UTF8.GetBytes(pass));
+    private static HMAC hmac = new HMACSHA1(Encoding.UTF8.GetBytes(pass), true);
 
     public static bool IsValid(ActionForm form)
     {
         if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
 
-        string? first = form.action == "get_player_online" ? "*:*.*.*"
-                     : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
+        //string? text2 = form.action == "get_player_online" ? "*:*.*.*"
+        //             : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
 
-        string? second = form.token ?? form.uniq_id;
+        string text2 = ((!form.action.Equals("get_player_online")) ? ((int)form.platform + ":" + form.app_version) : "*:*.*.*");
 
-        if (first == null || second == null)
+        string? text = form.token ?? form.uniq_id;
+
+        if (text2 == null || text == null)
             return false;
 
-        string input = string.Concat(first, second, form.action);
-        byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input));
+        string text3 = text2 + text + form.action; //string.Concat(text2, text, form.action);
+        byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(text3));
         string converted = BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
 
         DebugHelper.Log($"Input hash: {form.auth} Computed hash: {converted}");
