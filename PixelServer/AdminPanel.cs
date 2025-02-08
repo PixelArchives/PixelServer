@@ -4,7 +4,7 @@ namespace PixelServer;
 
 public static class AdminPanel
 {
-    public static bool noInput;
+    public static bool noInput = true;
 
     // Im writing console app for the first time dont blame me for that awful code.
     public static async Task Run()
@@ -12,17 +12,19 @@ public static class AdminPanel
         Console.WriteLine("Use '/' to run command.");
         Console.WriteLine("Input '?' for help.");
 
+        Console.CursorVisible = false;
+
         while (true)
         {
             if (noInput)
             {
                 await Task.Yield(); 
 
-                if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Q)
+                if (Console.KeyAvailable && Console.ReadKey(true).KeyChar == '/')
                 {
                     noInput = false;
                     Console.CursorVisible = true;
-                    Console.WriteLine("Command input resumed.");
+                    Console.WriteLine("Input command....");
                 }
                 continue;
             }
@@ -30,6 +32,9 @@ public static class AdminPanel
             string? input = Console.ReadLine();
 
             await OnCommand(input);
+
+            noInput = true;
+            Console.CursorVisible = false;
         }
     }
 
@@ -43,7 +48,6 @@ public static class AdminPanel
         switch (command)
         {
             case "?": LogManual(); break;
-            case "log": Console.WriteLine("Logging, press `Q` to exit"); noInput = true; Console.CursorVisible = false;  break;
             case "clear": Console.Clear(); break;
             default: Console.WriteLine($"Unknown command \"{command}\", input '?' for help"); break;
         }
@@ -56,7 +60,6 @@ public static class AdminPanel
         builder.AppendLine("Manual IDK");
         
         builder.AppendLine("?: Log this");
-        builder.AppendLine("log: Start logging actions and etc.");
         builder.AppendLine("clear: Clears console.");
 
         Console.WriteLine(builder);

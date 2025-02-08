@@ -25,6 +25,10 @@ public static class HashHelper
 
         string input = string.Concat(first, second, form.action);
         byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input));
-        return form.auth == BitConverter.ToString(hash);
+        string converted = BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
+
+        DebugHelper.Log($"Input hash: {form.auth} Computed hash: {converted}");
+
+        return form.auth == converted;
     }
 }
