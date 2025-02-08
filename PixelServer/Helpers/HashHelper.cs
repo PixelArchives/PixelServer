@@ -1,8 +1,6 @@
 ﻿using PixelServer.Objects;
-using System;
 using System.Security.Cryptography;
 using System.Text;
-using static System.Collections.Specialized.BitVector32;
 
 namespace PixelServer.Helpers;
 
@@ -10,16 +8,16 @@ public static class HashHelper
 {
     private const string pass = "pI}{eLG4nS()()P3R53CREt";
 
-    private static HMAC hmac = new HMACSHA1(Encoding.UTF8.GetBytes(pass));
+    private static HMAC hmac = new HMACSHA1(Encoding.UTF8.GetBytes(pass), true);
 
     public static bool IsValid(ActionForm form)
     {
         if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
 
-        //string? text2 = form.action == "get_player_online" ? "*:*.*.*"
-        //             : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
+        string? text2 = form.action == "get_player_online" ? "*:*.*.*"
+                     : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
 
-        string text2 = ((!form.action.Equals("get_player_online")) ? ((int)form.platform + ":" + form.app_version) : "*:*.*.*");
+        //string text2 = ((!form.action.Equals("get_player_online")) ? ((int)form.platform + ":" + form.app_version) : "*:*.*.*");
 
         string? text = form.token ?? form.uniq_id;
 
