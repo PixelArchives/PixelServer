@@ -1,4 +1,6 @@
-﻿namespace PixelServer;
+﻿using System.Text;
+
+namespace PixelServer;
 
 public static class AdminPanel
 {
@@ -40,10 +42,23 @@ public static class AdminPanel
 
         switch (command)
         {
-            case "?": break;
+            case "?": LogManual(); break;
             case "log": Console.WriteLine("Logging, press `Q` to exit"); noInput = true; Console.CursorVisible = false;  break;
             case "clear": Console.Clear(); break;
             default: Console.WriteLine($"Unknown command \"{command}\", input '?' for help"); break;
         }
+    }
+
+    static void LogManual()
+    {
+        StringBuilder builder = new();
+
+        builder.AppendLine("Manual IDK");
+        
+        builder.AppendLine("?: Log this");
+        builder.AppendLine("log: Start logging actions and etc.");
+        builder.AppendLine("clear: Clears console.");
+
+        Console.WriteLine(builder);
     }
 }

@@ -11,7 +11,9 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
-        await Task.Run(() => { });
+        if (form.action == null) return "fail";
+
+        if (!HashHelper.IsValid(form)) return "fail";
 
         DebugHelper.Log(form);
 
@@ -29,6 +31,9 @@ public class MainController
             case "create_player":
                 long id = await AccountHelper.CreateAccount(form.token);
                 return id.ToString();
+
+            case "get_time": 
+                return DateTime.UtcNow.ToFileTimeUtc().ToString();
 
             case "start_check": 
                 return await AccountHelper.AccountExists(form.uniq_id) ? "exists" : "fail";
