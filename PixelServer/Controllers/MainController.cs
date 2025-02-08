@@ -11,6 +11,8 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
+        await Task.Run(() => { });
+
         DebugHelper.Log(form);
 
         switch (form.action)

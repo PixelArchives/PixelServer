@@ -6,9 +6,23 @@ public static class DebugHelper
 {
     public static void Log(string message, bool skipLine = false)
     {
+        if (!AdminPanel.noInput) return;
+
         if (string.IsNullOrEmpty(message)) return;
 
-        if (skipLine) Console.WriteLine("\n");
+        if (skipLine) message += "\n";
+
+        Console.WriteLine(message);
+    }
+
+    public static void ForceLog(string message)
+    {
+        if (!AdminPanel.noInput) AdminPanel.noInput = true;
+
+        Console.Clear();
+
+        Console.WriteLine("FORCE LOG:\n");
+
         Console.WriteLine(message);
     }
 

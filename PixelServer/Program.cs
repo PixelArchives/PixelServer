@@ -28,6 +28,8 @@ public class Program
 
         AdminPanel.Run();
 
+        DebugHelper.Log("S");
+
         app.Run();
     }
 

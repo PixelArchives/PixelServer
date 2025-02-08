@@ -15,6 +15,8 @@ public static class Db
 
         var command = new MySqlCommand(GetInitCommands(), conn);
         await command.ExecuteScalarAsync();
+
+        inited = true;
     }
 
     public static MySqlConnection Get()
