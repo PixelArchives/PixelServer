@@ -13,6 +13,16 @@ public static class DebugHelper
         Console.WriteLine(message);
     }
 
+    public static void LogError(string message, bool skipLine = false)
+    {
+        Log(message, skipLine);
+    }
+
+    public static void LogWarning(string message, bool skipLine = false)
+    {
+        Log(message, skipLine);
+    }
+
     public static void ForceLog(string message)
     {
         Console.Clear();

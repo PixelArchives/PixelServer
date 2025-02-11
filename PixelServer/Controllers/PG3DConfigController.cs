@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PixelServer.Helpers;
 using PixelServer.Objects;
 
 namespace PixelServer.Controllers;
@@ -15,10 +16,8 @@ public class PG3DConfigController
 
     [Route("FilterBadWord.json")]
     [HttpGet]
-    public JsonResult FilterBadWord()
+    public async Task<JsonResult> FilterBadWord()
     {
-        BadWordContainer result = new();
-
-        return new JsonResult(result);
+        return new JsonResult(await BadWordHelper.GetOrCreate());
     }
 }

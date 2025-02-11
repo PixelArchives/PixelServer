@@ -12,12 +12,12 @@ public static class AccountHelper
         string token = Guid.NewGuid().ToString();
 
         // Insert the new account with the generated token
-        using var insertCommand = new MySqlCommand("INSERT INTO `accounts` (token) VALUES (@token);", db);
+        using MySqlCommand insertCommand = new("INSERT INTO `accounts` (token) VALUES (@token);", db);
         insertCommand.Parameters.AddWithValue("@token", token);
         await insertCommand.ExecuteNonQueryAsync();
 
         // Get the last inserted ID
-        using var idCommand = new MySqlCommand("SELECT LAST_INSERT_ID();", db);
+        using MySqlCommand idCommand = new("SELECT LAST_INSERT_ID();", db);
         object? result = await idCommand.ExecuteScalarAsync();
 
         // Check if result is valid
@@ -37,7 +37,7 @@ public static class AccountHelper
 
         using var db = await Db.GetOpen();
 
-        using var command = new MySqlCommand("SELECT `id` FROM `accounts` WHERE `token` = @token;", db);
+        using MySqlCommand command = new("SELECT `id` FROM `accounts` WHERE `token` = @token;", db);
         command.Parameters.AddWithValue("@token", token);
 
         object? result = await command.ExecuteScalarAsync();
@@ -62,7 +62,7 @@ public static class AccountHelper
     {
         using var db = await Db.GetOpen();
 
-        using var command = new MySqlCommand("SELECT EXISTS(SELECT 1 FROM `accounts` WHERE `id` = @id);", db);
+        using MySqlCommand command = new("SELECT EXISTS(SELECT 1 FROM `accounts` WHERE `id` = @id);", db);
         command.Parameters.AddWithValue("@id", id);
 
         object? result = await command.ExecuteScalarAsync(); // Gets the result (0 or 1)

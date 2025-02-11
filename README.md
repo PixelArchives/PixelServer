@@ -6,6 +6,7 @@ Instance of MySQL with empty database for the server.
   
 ## Working Features (10.3.1)
 - Account Creating
+- Bad Word/Symbol filtering
   
 ## Work In Progress (10.3.1)
 - Hashing/Auth check
@@ -20,7 +21,6 @@ Instance of MySQL with empty database for the server.
 - Days of Valor
 - Best Buy
 - Promo Actions*
-- Bad Word Filter*
 - Advert
 - Buff Settings
 - TrafficForwarding
