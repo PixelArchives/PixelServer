@@ -71,7 +71,11 @@ public static class AdminPanel
                 if (bool.TryParse(vals[2], out bool is_symbol))
                 {
                     bool b = await BadWordHelper.AddValue(vals[1], is_symbol);
-                    if (!b) Console.WriteLine("Couldn't add value");
+                    if (!b)
+                    {
+                        Console.WriteLine("Couldn't add value");
+                        return;
+                    }
                 }
                 else Console.WriteLine("Couldn't parse 'is_symbol'");
             }
