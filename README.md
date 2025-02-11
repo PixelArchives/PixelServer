@@ -9,6 +9,7 @@ Instance of MySQL with empty database for the server.
   
 ## Work In Progress (10.3.1)
 - Hashing/Auth check
+- Version check*
 - Time getting'
 - Map popularity
 - Ban system*
