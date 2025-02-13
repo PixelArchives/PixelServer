@@ -36,6 +36,7 @@ Instance of MySQL with empty database for the server.
 - Clan
   - ToDo: List features here
 - Chat system
+- Chest bonus
 
 *Works but has no functionality  
 ** In code but not functional
