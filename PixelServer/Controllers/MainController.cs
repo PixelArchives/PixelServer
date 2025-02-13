@@ -11,7 +11,7 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
-        if (form.action == null) return "fail";
+        if (string.IsNullOrWhiteSpace(form.action)) return "fail";
 
         if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
@@ -37,6 +37,9 @@ public class MainController
 
             case "start_check": 
                 return await AccountHelper.AccountExists(form.uniq_id);
+
+            //case "get_leaderboards_wins":
+            //    return "fail";
         }
 
         return "fail";

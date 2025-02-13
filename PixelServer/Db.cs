@@ -1,22 +1,15 @@
-﻿using System.Threading.Tasks;
-using MySqlConnector;
+﻿using MySqlConnector;
 
 namespace PixelServer;
 
 public static class Db
 {
-    private static bool inited;
-
     public static async Task Init()
     {
-        if (inited) return;
-
         using var conn = await GetOpen();
 
         var command = new MySqlCommand(GetInitCommands(), conn);
-        await command.ExecuteScalarAsync();
-
-        inited = true;
+        await command.ExecuteNonQueryAsync();
     }
 
     public static MySqlConnection Get()
@@ -51,6 +44,13 @@ public static class Db
         result.AppendLine("("); // opening
         result.AppendLine("`value` tinytext NOT NULL,");
         result.AppendLine("`is_symbol` tinyint(1) NOT NULL DEFAULT 0");
+        result.AppendLine(");"); // closing
+
+        // config
+        result.AppendLine("CREATE TABLE IF NOT EXISTS `config`");
+        result.AppendLine("("); // opening
+        result.AppendLine("`key` VARCHAR(100) NOT NULL UNIQUE,");
+        result.AppendLine("`value` VARCHAR(255) NOT NULL");
         result.AppendLine(");"); // closing
 
         return result.ToString();

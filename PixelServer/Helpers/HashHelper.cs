@@ -14,7 +14,7 @@ public static class HashHelper
     {
         return true;
 
-        if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
+        /*if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
 
         string? text2 = form.action == "get_player_online" ? "*:*.*.*"
                      : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
@@ -33,7 +33,8 @@ public static class HashHelper
 
         DebugHelper.Log($"Input hash: {form.auth} Computed hash: {text3}");
 
-        return form.auth == text3;
+        return form.auth == text3;*/
+        // Rewrite this shit cuz PG3D request logic is fucking retarded
     }
 
     /* OG code from 10.3.1

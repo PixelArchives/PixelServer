@@ -54,6 +54,7 @@ public static class AdminPanel
         if (command.StartsWith("addBadWord")) await AdminUtils.AddBadWord(command);
         else if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);
         else if (command.StartsWith(AdminConsts.unban)) await AdminUtils.BanOrUnban(command);
+        else if (command.StartsWith("version")) await AdminUtils.ModGameVer(command);
         else Console.WriteLine($"Unknown command \"{command}\", input '?' for help");
     }
 
@@ -67,6 +68,7 @@ public static class AdminPanel
         builder.AppendLine("clear: Clears console.");
         builder.AppendLine($"{AdminConsts.ban} {{long:id}}: Bans player.");
         builder.AppendLine($"{AdminConsts.unban} {{long:id}}: Unbans player.");
+        builder.AppendLine("version add/delete: Modifies list of allowed game versions.");
         builder.AppendLine("addBadWord {string/char:value} {bool:is_symbol}: Adds bad word/symbol in database.");
 
         Console.WriteLine(builder);

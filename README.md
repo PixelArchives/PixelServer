@@ -13,15 +13,15 @@ Instance of MySQL with empty database for the server.
 - Account Creating
 - Bad Word/Symbol filtering
 - Ban system
+- Time getting
+- Version check
   
 ## Work In Progress (10.3.1)
 - Hashing/Auth check
-- Version check*
-- Time getting'
 - Map popularity
 - Pixel Book
   - ToDo: List all features here
-- Lobby News**
+- Lobby News*
 - Premium Account
 - Days of Valor
 - Best Buy
@@ -37,9 +37,9 @@ Instance of MySQL with empty database for the server.
   - ToDo: List features here
 - Chat system
 - Chest bonus
+- Leaderboards
 
 *Works but has no functionality  
-** In code but not functional
 
 # Disclaimer
 

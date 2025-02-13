@@ -1,4 +1,5 @@
-﻿using PixelServer.Helpers;
+﻿using PixelServer.Controllers;
+using PixelServer.Helpers;
 
 namespace PixelServer.Admin;
 
@@ -9,16 +10,7 @@ public static class AdminUtils
     {
         string[] vals = fullCommand.Split(' ');
 
-        if (vals.Length > 2)
-        {
-            DebugHelper.LogWarning("Too much arguments");
-            return;
-        }
-        else if (vals.Length < 2)
-        {
-            DebugHelper.LogWarning("Too few arguments");
-            return;
-        }
+        if (!ArgumentCheck(vals.Length, 2)) return;
 
         try
         {
@@ -36,16 +28,8 @@ public static class AdminUtils
     public static async Task AddBadWord(string fullCommand)
     {
         string[] vals = fullCommand.Split(' ');
-        if (vals.Length > 3)
-        {
-            DebugHelper.LogWarning("Too much arguments");
-            return;
-        }
-        else if (vals.Length < 3)
-        {
-            DebugHelper.LogWarning("Too few arguments");
-            return;
-        }
+
+        if (!ArgumentCheck(vals.Length, 3)) return;
 
         try
         {
@@ -66,5 +50,40 @@ public static class AdminUtils
         }
 
         DebugHelper.Log($"Added value \"{vals[1]}\" successfuly.");
+    }
+
+    public static async Task ModGameVer(string fullCommand)
+    {
+        string[] vals = fullCommand.Split(' ');
+
+        if (!ArgumentCheck(vals.Length, 3)) return;
+
+        if (vals[1] != "add" && vals[1] != "remove")
+        {
+            DebugHelper.LogWarning("Unable to parse second argument");
+        }
+
+        bool isAdd = vals[1] == "add";
+
+        if (isAdd) await VersionHelper.AddVersion(vals[2]);
+        else await VersionHelper.RemoveVersion(vals[2]);
+    }
+
+    static bool ArgumentCheck(int ammount, int max) => ArgumentCheck(ammount, max, max);
+
+    static bool ArgumentCheck(int ammount, int min, int max)
+    {
+        if (ammount > max)
+        {
+            DebugHelper.LogWarning("Too much arguments");
+            return false;
+        }
+        else if (ammount < min)
+        {
+            DebugHelper.LogWarning("Too few arguments");
+            return false;
+        }
+
+        return true;
     }
 }

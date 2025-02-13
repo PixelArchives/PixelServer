@@ -35,6 +35,8 @@ public class Program
             return;
         }
 
+        await VersionHelper.CheckVersion();
+
         var app = builder.Build();
 
         app.MapControllers();
