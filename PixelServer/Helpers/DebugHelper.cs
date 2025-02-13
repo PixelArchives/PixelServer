@@ -15,23 +15,19 @@ public static class DebugHelper
 
     public static void LogError(string message, bool skipLine = false)
     {
+        Console.ForegroundColor = ConsoleColor.Red;
         Log(message, skipLine);
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     public static void LogWarning(string message, bool skipLine = false)
     {
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Log(message, skipLine);
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public static void ForceLog(string message)
-    {
-        Console.Clear();
-
-        Console.WriteLine("FORCE LOG:\n");
-
-        Console.WriteLine(message);
-    }
-
+    ///<summary>This is for debbugging purposes, it floods console, not recommended to use.</summary>
     public static void Log(ActionForm form)
     {
         string log = "\n";
@@ -46,6 +42,8 @@ public static class DebugHelper
         log += $"token={form.token}\n";
         log += "----- End\n";
 
+        Console.ForegroundColor = ConsoleColor.Green;
         Log(log, true);
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }

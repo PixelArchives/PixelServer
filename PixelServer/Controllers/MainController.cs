@@ -13,7 +13,7 @@ public class MainController
     {
         if (form.action == null) return "fail";
 
-        if (!HashHelper.IsValid(form)) return "fail";
+        if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
         DebugHelper.Log(form);
 
@@ -36,7 +36,7 @@ public class MainController
                 return DateTime.UtcNow.ToFileTimeUtc().ToString();
 
             case "start_check": 
-                return await AccountHelper.AccountExists(form.uniq_id) ? "exists" : "fail";
+                return await AccountHelper.AccountExists(form.uniq_id);
         }
 
         return "fail";

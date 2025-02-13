@@ -21,7 +21,7 @@ public static class HashHelper
 
         //string text2 = ((!form.action.Equals("get_player_online")) ? ((int)form.platform + ":" + form.app_version) : "*:*.*.*");
 
-        string? text = form.token ?? form.uniq_id;
+        string? text = form.token ?? form.uniq_id.ToString();
 
         if (text2 == null || text == null)
             return false;

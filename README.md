@@ -12,13 +12,13 @@ Instance of MySQL with empty database for the server.
 ## Working Features (10.3.1)
 - Account Creating
 - Bad Word/Symbol filtering
+- Ban system
   
 ## Work In Progress (10.3.1)
 - Hashing/Auth check
 - Version check*
 - Time getting'
 - Map popularity
-- Ban system*
 - Pixel Book
   - ToDo: List all features here
 - Lobby News**

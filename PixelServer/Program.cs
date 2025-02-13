@@ -1,6 +1,7 @@
-using MySqlConnector;
+using PixelServer.Admin;
 using PixelServer.Helpers;
 using System.Diagnostics;
+using System.Text;
 
 namespace PixelServer;
 
@@ -8,6 +9,9 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        Console.InputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
+
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://127.0.0.2");
 
@@ -26,8 +30,8 @@ public class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Unable to connect to database, Exception:");
-            Console.WriteLine(ex.Message);
+            DebugHelper.LogError("Unable to connect to database, Exception:");
+            DebugHelper.LogError(ex.Message);
             return;
         }
 
@@ -36,8 +40,6 @@ public class Program
         app.MapControllers();
 
         AdminPanel.Run();
-
-        DebugHelper.Log("S");
 
         app.Run();
     }

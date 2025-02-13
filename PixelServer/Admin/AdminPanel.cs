@@ -1,7 +1,6 @@
-﻿using PixelServer.Helpers;
-using System.Text;
+﻿using System.Text;
 
-namespace PixelServer;
+namespace PixelServer.Admin;
 
 public static class AdminPanel
 {
@@ -19,7 +18,7 @@ public static class AdminPanel
         {
             if (noInput)
             {
-                await Task.Yield(); 
+                await Task.Yield();
 
                 if (Console.KeyAvailable && Console.ReadKey(true).KeyChar == '/')
                 {
@@ -52,40 +51,9 @@ public static class AdminPanel
             case "clear": Console.Clear(); return;
         }
 
-        if (command.StartsWith("AddBadWord"))
-        {
-            string[] vals = command.Split(' ');
-            if (vals.Length > 3)
-            {
-                Console.WriteLine("Too much arguments");
-                return;
-            }
-            else if (vals.Length < 3)
-            {
-                Console.WriteLine("Too few arguments");
-                return;
-            }
-
-            try
-            {
-                if (bool.TryParse(vals[2], out bool is_symbol))
-                {
-                    bool b = await BadWordHelper.AddValue(vals[1], is_symbol);
-                    if (!b)
-                    {
-                        Console.WriteLine("Couldn't add value");
-                        return;
-                    }
-                }
-                else Console.WriteLine("Couldn't parse 'is_symbol'");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Couldn't add value. Ex: {ex}");
-            }
-
-            Console.WriteLine($"Added value \"{vals[1]}\" successfuly.");
-        }
+        if (command.StartsWith("addBadWord")) await AdminUtils.AddBadWord(command);
+        else if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);
+        else if (command.StartsWith(AdminConsts.unban)) await AdminUtils.BanOrUnban(command);
         else Console.WriteLine($"Unknown command \"{command}\", input '?' for help");
     }
 
@@ -94,10 +62,12 @@ public static class AdminPanel
         StringBuilder builder = new();
 
         builder.AppendLine("Manual IDK");
-        
+        builder.AppendLine("---");
         builder.AppendLine("?: Log this");
         builder.AppendLine("clear: Clears console.");
-        builder.AppendLine("AddBadWord {string/char:value} {bool:is_symbol}: Adds bad word/symbol in database.");
+        builder.AppendLine($"{AdminConsts.ban} {{long:id}}: Bans player.");
+        builder.AppendLine($"{AdminConsts.unban} {{long:id}}: Unbans player.");
+        builder.AppendLine("addBadWord {string/char:value} {bool:is_symbol}: Adds bad word/symbol in database.");
 
         Console.WriteLine(builder);
     }

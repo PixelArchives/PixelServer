@@ -9,9 +9,10 @@ namespace PixelServer.Controllers;
 public class PG3DConfigController
 {
     [Route("getBanList.php")]
-    public int GetBanList([FromForm] ActionForm form)
+    public async Task<int> GetBanList([FromForm] BanListForm form)
     {
-        return -1; // -1 dev, 0 not banned, 1 BAN THIS RETARD
+        //return -1; // -1 dev, 0 not banned, 1 BAN THIS RETARD
+        return await AccountHelper.IsBanned(form.id);
     }
 
     [Route("FilterBadWord.json")]

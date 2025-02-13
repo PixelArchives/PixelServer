@@ -49,7 +49,7 @@ public static class BadWordHelper
 
     public static async Task<bool> AddValue(string value, bool is_symbol)
     {
-        if (!Settings.BadWordFiltering)
+        if (!Settings.badWordFiltering)
         {
             DebugHelper.LogWarning("Warning: Unable to add bad word, BadWordFiltering is disabled.");
             return false;

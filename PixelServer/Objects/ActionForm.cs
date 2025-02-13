@@ -9,7 +9,7 @@ public class ActionForm
     ///<summary>Platform.</summary>
     public Platform? platform { get; set; }
 
-    public string? uniq_id { get; set; }
+    public long? uniq_id { get; set; }
 
     ///<summary>Device unique ID, its gura-... gurua-.. fuck this, its just always unique.</summary>
     public string? device { get; set; }
@@ -17,7 +17,7 @@ public class ActionForm
     ///<summary>App version, for some reason formated in this way: $"{platform}:{appver}"</summary>
     public string? app_version { get; set; }
 
-    ///<summary>action but hashed..?</summary>
+    ///<summary>use with HashHelper</summary>
     public string? auth { get; set; }
 
     ///<summary>ToDo</summary>
