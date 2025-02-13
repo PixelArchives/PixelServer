@@ -20,7 +20,16 @@ public class Program
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
-        await InitDatabase();
+        try
+        {
+            await InitDatabase();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Unable to connect to database, Exception:");
+            Console.WriteLine(ex.Message);
+            return;
+        }
 
         var app = builder.Build();
 
