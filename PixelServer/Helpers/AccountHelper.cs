@@ -57,8 +57,8 @@ public static class AccountHelper
 
     /// <summary>Checks if account exists in database, if not, creates new.</summary>
     /// <param name="id">Unique ID of the player.</param>
-    /// <returns>Player exists?</returns>
-    public static async Task<string> AccountExists(long? id, bool createNewIfNotExists = true)
+    /// <returns>New or already registred player.</returns>
+    public static async Task<string> GetOrCreate(long? id)
     {
         if (id == null) return "fail";
 
@@ -72,8 +72,6 @@ public static class AccountHelper
         bool exists = Convert.ToBoolean(result);
 
         if (exists) return "exists";
-
-        if (!createNewIfNotExists) return "0";
 
         string token = await CreateAccountToken();
         long account = await CreateAccount(token);

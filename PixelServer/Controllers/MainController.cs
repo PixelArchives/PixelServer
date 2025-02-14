@@ -38,7 +38,7 @@ public class MainController
                 return DateTime.UtcNow.ToFileTimeUtc().ToString();
 
             case "start_check": 
-                return await AccountHelper.AccountExists(form.uniq_id);
+                return await AccountHelper.GetOrCreate(form.uniq_id);
 
             //case "get_leaderboards_wins":
             //    return "fail";
