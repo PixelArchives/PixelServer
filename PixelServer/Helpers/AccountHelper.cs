@@ -73,6 +73,8 @@ public static class AccountHelper
 
         if (exists) return "exists";
 
+        if (!createNewIfNotExists) return "0";
+
         string token = await CreateAccountToken();
         long account = await CreateAccount(token);
 
