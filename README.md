@@ -34,7 +34,7 @@ Instance of MySQL with empty database for the server.
 
 #### Meaning:
 - 🟩 - Implemented.
-- 🟨 - partially Implemented.
+- 🟨 - Partially Implemented.
 - 🟥 - Not Implemented.
 - ⬛ - Game version doesnt have it implemented.
 
