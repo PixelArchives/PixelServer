@@ -79,9 +79,6 @@ public static class AccountHelper
         return account.ToString();
     }
 
-    // int because -1 may be isDeveloper, however, in database its boolean right now.
-    // Still not sure about developer thing
-
     /// <summary>Checks if player is banned.</summary>
     /// <param name="id">ID of the player.</param>
     /// <returns>Not banned: 0, Banned: 1</returns>
