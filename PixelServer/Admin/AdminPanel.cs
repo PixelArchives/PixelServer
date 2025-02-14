@@ -2,11 +2,12 @@
 
 namespace PixelServer.Admin;
 
+///<summary>Main code for Admin Panel</summary>
 public static class AdminPanel
 {
     public static bool noInput = true;
 
-    // Im writing console app for the first time dont blame me for that awful code.
+    // Im writing console app almost for the first time dont blame me for that awful code.
     public static async Task Run()
     {
         Console.WriteLine("Use '/' to run command.");
@@ -39,7 +40,7 @@ public static class AdminPanel
     }
 
 
-    private static async Task OnCommand(string? command)
+    static async Task OnCommand(string? command)
     {
         if (string.IsNullOrWhiteSpace(command)) return;
 

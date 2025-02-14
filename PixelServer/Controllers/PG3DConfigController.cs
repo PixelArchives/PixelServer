@@ -11,7 +11,6 @@ public class PG3DConfigController
     [Route("getBanList.php")]
     public async Task<int> GetBanList([FromForm] BanListForm form)
     {
-        //return -1; // -1 dev, 0 not banned, 1 BAN THIS RETARD
         return await AccountHelper.IsBanned(form.id);
     }
 

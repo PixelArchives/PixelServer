@@ -15,7 +15,9 @@ public class MainController
 
         if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
+#if DEBUG
         DebugHelper.Log(form);
+#endif
 
         switch (form.action)
         {

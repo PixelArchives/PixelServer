@@ -8,8 +8,8 @@ public class PromoActions
 
     public PromoActions()
     {
-        topSellers_up = new()
-        {
+        topSellers_up =
+        [
             "Assault_Machine_GunBuy",
             "Autoaim_RocketlauncherBuy",
             "Solar_Ray",
@@ -35,8 +35,8 @@ public class PromoActions
             "gadget_jetpack",
             "gadget_Blizzard_generator",
             "gadget_fakebonus"
-        };
+        ];
 
-        discounts_up = new();
+        //discounts_up = new();
     }
 }

@@ -7,6 +7,7 @@ public static class VersionHelper
 {
     public static List<string> allowedVersions { get; private set; } = new();
 
+    ///<summary>RUN AT SERVER START! Gets game version from config database, if not set, sets to <see cref="Settings.defaultGameVersion"/></summary>
     public static async Task CheckVersion()
     {
         string? result = await GetVersionString();
@@ -25,6 +26,7 @@ public static class VersionHelper
         }
     }
 
+    ///<summary>Checks if <see cref="allowedVersions"/> contains <paramref name="version"/></summary>
     public static bool IsValid(string? version)
     {
         if (allowedVersions.Count == 0)
@@ -37,6 +39,10 @@ public static class VersionHelper
         return allowedVersions.Contains(version);
     }
 
+    /// <summary>
+    /// Adds <paramref name="version"/> to the database if <see cref="allowedVersions"/> doesn't contains it,
+    /// you can also force it with <paramref name="force"/>.
+    /// </summary>
     public static async Task AddVersion(string version, bool force = false)
     {
         try
@@ -73,6 +79,10 @@ public static class VersionHelper
         }
     }
 
+    /// <summary>
+    /// Removes <paramref name="version"/> from the database if <see cref="allowedVersions"/> contains it,
+    /// you can also force it with <paramref name="force"/>.
+    /// </summary>
     public static async Task RemoveVersion(string version, bool force = false)
     {
         try
@@ -100,7 +110,7 @@ public static class VersionHelper
                 if (resultList.Contains(version)) resultList.Remove(version);
                 else
                 {
-                    DebugHelper.LogWarning($"allowed versions config didnt had {version} in it.");
+                    DebugHelper.LogWarning($"Allowed versions config didnt had {version} in it.");
                     return;
                 }
             }
@@ -136,6 +146,7 @@ public static class VersionHelper
         }
     }
 
+    // Shortcut for getting it from database
     static async Task<string?> GetVersionString()
     {
         using var db = await Db.GetOpen();

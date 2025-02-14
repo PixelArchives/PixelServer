@@ -5,8 +5,10 @@ namespace PixelServer.Helpers;
 
 public static class BadWordHelper
 {
+    ///<summary>Cache to not open database connection every time.</summary>
     private static BadWordContainer? cache;
 
+    ///<summary>Gets cache, or creates it from database to and returns it, force with <paramref name="force"/>.</summary>
     public static async Task<BadWordContainer> GetOrCreate(bool force = false)
     {
         if (cache != null && !force) return cache;
@@ -47,6 +49,7 @@ public static class BadWordHelper
         return cache;
     }
 
+    ///<summary>Adds value to the database and cache, if <paramref name="is_symbol"/> lenght of value MUST BE 1, otherwise returns warning.</summary>
     public static async Task<bool> AddValue(string value, bool is_symbol)
     {
         if (!Settings.badWordFiltering)
