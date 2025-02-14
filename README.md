@@ -15,7 +15,7 @@ Instance of MySQL with empty database for the server.
 |Premium Accounts            |🟥   |
 |Hashing/Auth check          |🟥   |
 |Bad Word/Symbol filtering   |🟩   |
-|Time getting                |🟩   |
+|Server Time getting         |🟩   |
 |Supported Version check     |🟩   |
 |Map popularity              |🟥   |
 |Days of Valor               |🟥   |
