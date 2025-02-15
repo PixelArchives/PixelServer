@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using PixelServer.Objects;
 using System;
 
 namespace PixelServer.Helpers;
@@ -36,7 +37,10 @@ public static class VersionHelper
         }
         else if (version == null) return false;
 
-        return allowedVersions.Contains(version);
+        // The actual version is after :, first thing is platform (number, Platform.cs)
+        string actualVer = version.Split(':')[1];
+
+        return allowedVersions.Contains(actualVer);
     }
 
     /// <summary>

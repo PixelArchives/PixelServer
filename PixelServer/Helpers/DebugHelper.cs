@@ -6,6 +6,8 @@ public static class DebugHelper
 {
     public static void Log(string message, bool skipLine = false)
     {
+        if (!Admin.AdminPanel.noInput) return;
+
         if (string.IsNullOrEmpty(message)) return;
 
         if (skipLine) message += "\n";
