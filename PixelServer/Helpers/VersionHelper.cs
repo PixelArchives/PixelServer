@@ -32,7 +32,7 @@ public static class VersionHelper
     {
         if (allowedVersions.Count == 0)
         {
-            DebugHelper.LogError("ERROR: allowedVersions IS NULL OR LENGHT IS 0, GAME IS CURRENTLY UNACCESABLE", true);
+            DebugHelper.LogError("ERROR: allowedVersions LENGHT IS 0, GAME IS CURRENTLY UNACCESABLE", true);
             return false;
         }
         else if (version == null) return false;

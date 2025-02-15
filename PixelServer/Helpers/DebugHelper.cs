@@ -37,10 +37,14 @@ public static class DebugHelper
         log += "----- Action Log\n";
         log += $"action={form.action}\n";
         log += $"platform={form.platform}\n";
+        log += $"mode={form.mode}\n";
+        log += $"time={form.time}\n";
         log += $"uniq_id={form.uniq_id}\n";
         log += $"device={form.device}\n";
         log += $"app_version={form.app_version}\n";
         log += $"auth={form.auth}\n";
+        log += $"level={form.level}\n";
+        log += $"paying={form.paying}\n";
         log += $"token={form.token}\n";
         log += "----- End\n";
 

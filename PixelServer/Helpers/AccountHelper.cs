@@ -1,10 +1,11 @@
 ﻿using MySqlConnector;
-using System.Diagnostics;
+using PixelServer.Objects;
 
 namespace PixelServer.Helpers;
 
 public static class AccountHelper
 {
+    #region Account Creation
     /// <summary>Called in "create_player_intent"</summary>
     /// <returns></returns>
     public static async Task<string> CreateAccountToken()
@@ -78,7 +79,9 @@ public static class AccountHelper
 
         return account.ToString();
     }
+    #endregion
 
+    #region Ban
     /// <summary>Checks if player is banned.</summary>
     /// <param name="id">ID of the player.</param>
     /// <returns>Not banned: 0, Banned: 1</returns>
@@ -118,5 +121,39 @@ public static class AccountHelper
         command.Parameters.AddWithValue("@id", id);
 
         await command.ExecuteNonQueryAsync();
+    }
+    #endregion
+
+    public static async Task<AccountInfo?> GetInfoById(long? id)
+    {
+        using var db = await Db.GetOpen();
+
+        using MySqlCommand command = new("SELECT * FROM `accounts` WHERE `id` = @id;", db);
+        command.Parameters.AddWithValue("@id", id);
+
+        using var reader = await command.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            // 0 = Defs.RatingDeathmatch
+            // 2 = Defs.RatingTeamBattle
+            // 3 = Defs.RatingHunger
+            // 4 = Defs.RatingCapturePoint
+            AccountInfo result = new()
+            {
+                wincount =
+                {
+                    {0,  Convert.ToInt32(reader["RatingDeathmatch"])},
+                    //{1,  Convert.ToInt32(reader["TemporaryValue"])},
+                    {2,  Convert.ToInt32(reader["RatingTeamBattle"])},
+                    {3,  Convert.ToInt32(reader["RatingHunger"])},
+                    {4,  Convert.ToInt32(reader["RatingCapturePoint"])}
+                }
+            };
+
+            return result;
+        }
+
+        return null;
     }
 }
