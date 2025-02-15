@@ -7,6 +7,7 @@ namespace PixelServer.Controllers;
 [Route($"{Settings.mainRoute}{Settings.pg3dConfig}/PromoActions")]
 public class PromoActionsController
 {
+
     [HttpGet]
     [Route("promo_actions.json")]
     public JsonResult Default()

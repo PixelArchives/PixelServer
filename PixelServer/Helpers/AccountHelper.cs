@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using PixelServer.Objects;
+using System.Text;
 
 namespace PixelServer.Helpers;
 
@@ -124,6 +125,7 @@ public static class AccountHelper
     }
     #endregion
 
+    #region Player Info
     public static async Task<AccountInfo?> GetInfoById(long? id)
     {
         using var db = await Db.GetOpen();
@@ -156,4 +158,29 @@ public static class AccountHelper
 
         return null;
     }
+
+    public static async Task UpdateInfo(ActionForm form)
+    {
+        if (form.uniq_id == null) return;
+
+        StringBuilder builder = new();
+
+        builder.Append("UPDATE `accounts` SET "); 
+
+        if (form.paying != null) builder.Append("`paying` = @paying");
+        if (form.developer != null) builder.Append("`developer` = @developer");
+
+        builder.Append(" WHERE `id` = @id;");
+
+        using var db = await Db.GetOpen();
+
+        using MySqlCommand command = new(builder.ToString(), db);
+        command.Parameters.AddWithValue("@id", form.uniq_id);
+
+        if (form.paying != null) command.Parameters.AddWithValue("@paying", form.paying);
+        if (form.developer != null) command.Parameters.AddWithValue("@developer", form.developer);
+
+        await command.ExecuteNonQueryAsync();
+    }
+    #endregion
 }

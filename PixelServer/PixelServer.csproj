@@ -11,13 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Logo.txt">
+    <Content Include="Logo.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="_ToDo\" />
   </ItemGroup>
 
 </Project>

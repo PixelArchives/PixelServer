@@ -39,9 +39,11 @@ public static class Db
         result.Append("`id` BIGINT AUTO_INCREMENT PRIMARY KEY,");
         result.Append("`token` VARCHAR(255) NOT NULL,");
         result.Append("`device` VARCHAR(255) NOT NULL,");
-        result.Append("`banned` tinyint(1) NOT NULL DEFAULT 0,");
+        result.Append("`level` INT NOT NULL DEFAULT '0',");
+        result.Append("`paying` BOOLEAN NOT NULL DEFAULT '0',");
+        result.Append("`developer` BOOLEAN NOT NULL DEFAULT '0',");
+        result.Append("`banned` BOOLEAN NOT NULL DEFAULT 0,");
         result.Append("`RatingDeathmatch` INT NOT NULL DEFAULT '0',");
-        //result.Append("`TemporaryValue` INT NOT NULL DEFAULT '0',");
         result.Append("`RatingTeamBattle` INT NOT NULL DEFAULT '0',");
         result.Append("`RatingHunger` INT NOT NULL DEFAULT '0',");
         result.Append("`RatingCapturePoint` INT NOT NULL DEFAULT '0'");

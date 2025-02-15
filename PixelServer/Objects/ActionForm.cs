@@ -30,7 +30,10 @@ public class ActionForm
     public int? level { get; set; }
     
     ///<summary>Is user paying?</summary>
-    public bool? paying { get; set; }
+    public int? paying { get; set; }
+    
+    ///<summary>Is user developer?</summary>
+    public int? developer { get; set; }
 
     ///<summary>ToDo</summary>
     public string? token { get; set; }

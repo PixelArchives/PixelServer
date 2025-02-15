@@ -44,6 +44,10 @@ public class MainController
             case "get_info_by_id":
                 return JsonSerializer.Serialize(await AccountHelper.GetInfoById(form.uniq_id));
 
+            case "time_in_match":
+                await AccountHelper.UpdateInfo(form);
+                return "ok";
+
             // Misc
             case "get_time": 
                 return DateTime.UtcNow.ToFileTimeUtc().ToString();
