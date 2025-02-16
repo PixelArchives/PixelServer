@@ -1,6 +1,6 @@
 ﻿namespace PixelServer.Objects;
 
-public class BadWordContainer
+public class BadFilterContainer
 {
 
     public List<string> Words { get; set; } = new();

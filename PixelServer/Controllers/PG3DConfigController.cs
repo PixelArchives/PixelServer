@@ -18,6 +18,6 @@ public class PG3DConfigController
     [HttpGet]
     public async Task<JsonResult> FilterBadWord()
     {
-        return new JsonResult(await BadWordHelper.GetOrCreate());
+        return new JsonResult(await BadFilterHelper.GetOrCreate());
     }
 }

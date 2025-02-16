@@ -53,10 +53,12 @@ public static class AdminPanel
             case "clear": Console.Clear(); return;
         }
 
-        if (command.StartsWith("addBadWord")) await AdminUtils.AddBadWord(command);
-        else if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);
+        if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);
         else if (command.StartsWith(AdminConsts.unban)) await AdminUtils.BanOrUnban(command);
         else if (command.StartsWith("version")) await AdminUtils.ModGameVer(command);
+
+        else if (command.StartsWith("badfilter")) await AdminUtils.BadFilter(command);
+
         else Console.WriteLine($"Unknown command \"{command}\", input '?' for help");
     }
 
@@ -68,10 +70,13 @@ public static class AdminPanel
         builder.AppendLine("---");
         builder.AppendLine("?: Log this");
         builder.AppendLine("clear: Clears console.");
+        builder.AppendLine("-");
         builder.AppendLine($"{AdminConsts.ban} {{long:id}}: Bans player.");
         builder.AppendLine($"{AdminConsts.unban} {{long:id}}: Unbans player.");
         builder.AppendLine("version add/delete: Modifies list of allowed game versions.");
-        builder.AppendLine("addBadWord {string/char:value} {bool:is_symbol}: Adds bad word/symbol in database.");
+        builder.AppendLine("-");
+        builder.AppendLine("badfilter log: Logs allbad words/symbols in database.");
+        builder.AppendLine("badfilter {add/remove} {string/char:value}: Adds bad word/symbol in database.");
 
         Console.WriteLine(builder);
     }

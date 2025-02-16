@@ -50,11 +50,7 @@ public static class Db
         result.Append(");"); // closing
 
         // badfilter
-        result.AppendLine("CREATE TABLE IF NOT EXISTS `badfilter`");
-        result.Append("("); // opening
-        result.Append("`value` tinytext NOT NULL,");
-        result.Append("`is_symbol` tinyint(1) NOT NULL DEFAULT 0");
-        result.Append(");"); // closing
+        result.AppendLine("CREATE TABLE IF NOT EXISTS `badfilter`(`value` tinytext NOT NULL);");
 
         // config
         result.AppendLine("CREATE TABLE IF NOT EXISTS `config`");

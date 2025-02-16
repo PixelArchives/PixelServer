@@ -1,5 +1,6 @@
 ﻿using PixelServer.Controllers;
 using PixelServer.Helpers;
+using System.Text;
 
 namespace PixelServer.Admin;
 
@@ -25,24 +26,51 @@ public static class AdminUtils
         DebugHelper.Log("Executed command succesfully");
     }
 
-    public static async Task AddBadWord(string fullCommand)
+    public static async Task BadFilter(string fullCommand)
     {
         string[] vals = fullCommand.Split(' ');
+
+        if (vals.Length == 2 && vals[1] == "log")
+        {
+            await BadFilterLog();
+            return;
+        }
 
         if (!ArgumentCheck(vals.Length, 3)) return;
 
         try
         {
-            if (bool.TryParse(vals[2], out bool is_symbol))
-            {
-                await BadWordHelper.TryAddValue(vals[1], is_symbol);
-            }
-            else Console.WriteLine("Couldn't parse param [2]");
+            if (vals[1] == "add") await BadFilterHelper.TryAddValue(vals[2]);
+            else if (vals[1] == "remove") await BadFilterHelper.TryRemoveValue(vals[2]);
+            else DebugHelper.LogWarning("Unable to parse parameter [1]");
         }
         catch (Exception ex)
         {
             DebugHelper.LogError($"Couldn't add value. Ex: {ex}");
         }
+    }
+
+    public static async Task BadFilterLog()
+    {
+        var container = await BadFilterHelper.GetOrCreate();
+
+        StringBuilder builder = new();
+
+        builder.Append("Words: ");
+        foreach (string v in container.Words)
+        {
+            builder.Append(v);
+            builder.Append(", ");
+        }
+
+        builder.AppendLine("Symbols: ");
+        foreach (char v in container.Symbols)
+        {
+            builder.Append(v);
+            builder.Append(", ");
+        }
+
+        DebugHelper.Log(builder.ToString());
     }
 
     public static async Task ModGameVer(string fullCommand)
