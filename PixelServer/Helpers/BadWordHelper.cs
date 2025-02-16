@@ -50,12 +50,12 @@ public static class BadWordHelper
     }
 
     ///<summary>Adds value to the database and cache, if <paramref name="is_symbol"/> lenght of value MUST BE 1, otherwise returns warning.</summary>
-    public static async Task<bool> AddValue(string value, bool is_symbol)
+    public static async Task TryAddValue(string value, bool is_symbol)
     {
         if (!Settings.badWordFiltering)
         {
             DebugHelper.LogWarning("Warning: Unable to add bad word, BadWordFiltering is disabled.");
-            return false;
+            return;
         }
 
         try
@@ -63,7 +63,7 @@ public static class BadWordHelper
             if ((!is_symbol && value.Length > 255) || (is_symbol && value.Length > 1))
             {
                 DebugHelper.LogWarning("Warning: Unable to add bad word, values is too long.");
-                return false;
+                return;
             }
 
             using var db = await Db.GetOpen();
@@ -81,12 +81,14 @@ public static class BadWordHelper
                 else cache.Words.Add(value);
             }
 
-            return true;
+            DebugHelper.Log("Added value succesfully");
+
+            return;
         }
         catch (Exception ex)
         {
             DebugHelper.LogError($"Exception on adding value: {ex}");
-            return false;
+            return;
         }
     }
 }

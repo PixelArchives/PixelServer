@@ -28,16 +28,24 @@ public class Program
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
+        bool inited = false;
+
         // MySQL init
-        try
+
+        while (!inited)
         {
-            await InitDatabase();
-        }
-        catch (Exception ex)
-        {
-            DebugHelper.LogError("Unable to connect to database, Exception:");
-            DebugHelper.LogError(ex.Message);
-            return;
+            try
+            {
+                await InitDatabase();
+                inited = true;
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.LogError("Unable to connect to database, Exception:");
+                DebugHelper.LogError(ex.Message);
+                DebugHelper.LogWarning("Press any key to retry");
+                Console.ReadKey(true);
+            }
         }
 
         // Get game version confog from database

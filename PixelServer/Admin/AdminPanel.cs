@@ -32,10 +32,11 @@ public static class AdminPanel
 
             string? input = Console.ReadLine();
 
-            await OnCommand(input);
-
             noInput = true;
             Console.CursorVisible = false;
+
+            await OnCommand(input);
+
         }
     }
 

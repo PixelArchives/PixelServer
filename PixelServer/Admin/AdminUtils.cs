@@ -35,21 +35,14 @@ public static class AdminUtils
         {
             if (bool.TryParse(vals[2], out bool is_symbol))
             {
-                bool b = await BadWordHelper.AddValue(vals[1], is_symbol);
-                if (!b)
-                {
-                    DebugHelper.LogWarning("Couldn't add value");
-                    return;
-                }
+                await BadWordHelper.TryAddValue(vals[1], is_symbol);
             }
-            else Console.WriteLine("Couldn't parse 'is_symbol'");
+            else Console.WriteLine("Couldn't parse param [2]");
         }
         catch (Exception ex)
         {
             DebugHelper.LogError($"Couldn't add value. Ex: {ex}");
         }
-
-        DebugHelper.Log($"Added value \"{vals[1]}\" successfuly.");
     }
 
     public static async Task ModGameVer(string fullCommand)
