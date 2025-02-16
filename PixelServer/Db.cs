@@ -9,7 +9,7 @@ public static class Db
     {
         using var conn = await GetOpen();
 
-        var command = new MySqlCommand(GetInitCommands(), conn);
+        using MySqlCommand command = new(GetInitCommands(), conn);
         await command.ExecuteNonQueryAsync();
     }
 
