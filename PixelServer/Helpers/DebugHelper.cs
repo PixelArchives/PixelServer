@@ -36,7 +36,7 @@ public static class DebugHelper
         StringBuilder builder = new();
 
         builder.Append("----- Action Log");
-        builder.Append($"action={form.action}");
+        builder.AppendLine($"action={form.action}");
         builder.AppendLine($"platform={form.platform}");
         builder.AppendLine($"mode={form.mode}");
         builder.AppendLine($"time={form.time}");
