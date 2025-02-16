@@ -1,5 +1,6 @@
 # Pixel Server
-(First?) Open source server for Pixel Gun 3D that is aimed into recreating the functionality of original/official server using ASP.NET/C#  
+(First?) Open source server for Pixel Gun 3D that is aimed into recreating the functionality of original/official server with additional features.  
+Using the same language as the game. (C#)  
 Warning: This server was never tested on actual machine, it was tested only localy with Visual Studio debug builds.
 
 ### Requirements
@@ -12,7 +13,7 @@ Instance of MySQL with empty database for the server.
 |Account System              |🟩   |
 |Account Creation            |🟩   |
 |Account Banning             |🟩   |
-|Player Data Saving          |🟨   |
+|Player Data Saving          |🟪   |
 |Premium Accounts            |🟥   |
 |Hashing/Auth check          |🟥   |
 |Bad Word/Symbol filtering   |🟩   |
@@ -35,6 +36,7 @@ Instance of MySQL with empty database for the server.
 
 #### Meaning:
 - 🟩 - Implemented.
+- 🟪 - Implemented, Untested.
 - 🟨 - Partially Implemented.
 - 🟥 - Not Implemented.
 - ⬛ - Game version doesnt have it implemented.
