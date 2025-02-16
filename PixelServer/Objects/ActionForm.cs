@@ -23,6 +23,9 @@ public class ActionForm
     ///<summary>App version, for some reason formated in this way: $"{platform}:{appver}"</summary>
     public string? app_version { get; set; }
 
+    ///<summary>ToDo</summary>
+    public string? param { get; set; }
+
     ///<summary>Use with HashHelper.</summary>
     public string? auth { get; set; }
 

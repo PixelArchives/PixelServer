@@ -1,4 +1,5 @@
 ﻿using PixelServer.Objects;
+using System.Text;
 
 namespace PixelServer.Helpers;
 
@@ -32,24 +33,25 @@ public static class DebugHelper
     ///<summary>This is for debbugging purposes, it floods console, not recommended to use.</summary>
     public static void Log(ActionForm form)
     {
-        string log = "\n";
+        StringBuilder builder = new();
 
-        log += "----- Action Log\n";
-        log += $"action={form.action}\n";
-        log += $"platform={form.platform}\n";
-        log += $"mode={form.mode}\n";
-        log += $"time={form.time}\n";
-        log += $"uniq_id={form.uniq_id}\n";
-        log += $"device={form.device}\n";
-        log += $"app_version={form.app_version}\n";
-        log += $"auth={form.auth}\n";
-        log += $"level={form.level}\n";
-        log += $"paying={form.paying}\n";
-        log += $"token={form.token}\n";
-        log += "----- End\n";
+        builder.Append("----- Action Log");
+        builder.Append($"action={form.action}");
+        builder.AppendLine($"platform={form.platform}");
+        builder.AppendLine($"mode={form.mode}");
+        builder.AppendLine($"time={form.time}");
+        builder.AppendLine($"uniq_id={form.uniq_id}");
+        builder.AppendLine($"device={form.device}");
+        builder.AppendLine($"app_version={form.app_version}");
+        builder.AppendLine($"param={form.param}");
+        builder.AppendLine($"auth={form.auth}");
+        builder.AppendLine($"level={form.level}");
+        builder.AppendLine($"paying={form.paying}");
+        builder.AppendLine($"token={form.token}");
+        builder.AppendLine("----- End");
 
         Console.ForegroundColor = ConsoleColor.Green;
-        Log(log, true);
+        Log(builder.ToString(), true);
         Console.ForegroundColor = ConsoleColor.White;
     }
 }
