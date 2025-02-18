@@ -57,6 +57,9 @@ public class MainController
             case "possible_friends_list": 
                 return JsonSerializer.Serialize(new Dictionary<string, string>()); //ToDo
 
+            case "friend_request":
+                return await FriendsHelper.TrySendFreindRequest() ? "ok" : "fail";
+
             case "time_in_match":
                 await AccountHelper.UpdateInfo(form);
                 return "ok";

@@ -59,6 +59,13 @@ public static class Db
         result.Append("`value` VARCHAR(255) NOT NULL");
         result.Append(");"); // closing
 
+        // friend_requests
+        result.AppendLine("CREATE TABLE IF NOT EXISTS `friend_requests`");
+        result.Append("("); // opening
+        result.Append("`from` BIGINT NOT NULL,");
+        result.Append("`to` BIGINT NOT NULL");
+        result.Append(");"); // closing
+
         return result.ToString();
     }
 }

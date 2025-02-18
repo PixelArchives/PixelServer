@@ -43,7 +43,8 @@ public static class DebugHelper
         builder.AppendLine($"uniq_id={form.uniq_id}");
         builder.AppendLine($"device={form.device}");
         builder.AppendLine($"app_version={form.app_version}");
-        builder.AppendLine($"ids={form.ids}");
+        builder.AppendLine($"id={form.id}");
+        builder.AppendLine($"whom={form.whom}");
         builder.AppendLine($"ids={form.ids}");
         builder.AppendLine($"rank={form.rank}");
         builder.AppendLine($"platform_id={form.platform_id}");

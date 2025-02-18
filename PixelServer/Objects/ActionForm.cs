@@ -23,7 +23,13 @@ public class ActionForm
     ///<summary>App version, for some reason formated in this way: $"{platform}:{appver}"</summary>
     public string? app_version { get; set; }
 
-    ///<summary>ToD.o</summary>
+    ///<summary>Player's ID</summary>
+    public long? id { get; set; }
+
+    ///<summary>ID whoever player is interacting with.</summary>
+    public long? whom { get; set; }
+
+    ///<summary>ToDo</summary>
     public string? ids { get; set; }
 
     ///<summary>Player Rank.</summary>
