@@ -4,7 +4,26 @@ namespace PixelServer.Helpers;
 
 public static class FriendsHelper
 {
-    public static async Task<bool> TrySendFreindRequest(long? from, long? to)
+    public static async Task<string> UpdateFriendsInfo(long? id)
+    {
+        if (id == null) return "fail";
+
+        try
+        {
+            Dictionary<string, string> result = new();
+
+            // friends, invites, invites_outcoming
+
+            return System.Text.Json.JsonSerializer.Serialize(result);
+        }
+        catch (Exception ex) 
+        {
+            DebugHelper.LogError("Exception on updating friends info, Ex: " + ex.Message);
+            return "fail";
+        }
+    }
+
+    public static async Task<bool> TrySendFriendRequest(long? from, long? to)
     {
         if (from == null || to == null) return false;
 

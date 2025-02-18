@@ -52,13 +52,13 @@ public class MainController
 
             // Friends
             case "update_friends_info": 
-                return JsonSerializer.Serialize(new Dictionary<string, string>()); //ToDo
+                return await FriendsHelper.UpdateFriendsInfo(form.uniq_id); //ToDo
 
             case "possible_friends_list": 
                 return JsonSerializer.Serialize(new Dictionary<string, string>()); //ToDo
 
             case "friend_request":
-                return await FriendsHelper.TrySendFreindRequest(form.id, form.whom) ? "ok" : "fail";
+                return await FriendsHelper.TrySendFriendRequest(form.id, form.whom) ? "ok" : "fail";
 
             case "time_in_match":
                 await AccountHelper.UpdateInfo(form);
