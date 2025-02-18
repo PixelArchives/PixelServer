@@ -14,7 +14,7 @@ Instance of MySQL with empty database for the server.
 |Account Creation            |🟩   |
 |Account Banning             |🟩   |
 |Player Data Saving          |🟪   |
-|Player Searching (Friends)  |🟥   |
+|Player Searching (Friends)  |🟨   |
 |Premium Accounts            |🟥   |
 |Hashing/Auth check          |🟥   |
 |Bad Word/Symbol filtering   |🟩   |
