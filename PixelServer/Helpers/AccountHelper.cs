@@ -11,8 +11,7 @@ public static class AccountHelper
     /// <returns></returns>
     public static async Task<string> CreateAccountToken()
     {
-        var db = Db.Get();
-        await db.OpenAsync();
+        using var db = await Db.GetOpen();
 
         string token = Guid.NewGuid().ToString();
 
