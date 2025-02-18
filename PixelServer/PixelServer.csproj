@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <None Remove="Logo.txt" />
+    <None Remove="tet.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Logo.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

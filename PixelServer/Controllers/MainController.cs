@@ -12,7 +12,7 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
-        //if (string.IsNullOrWhiteSpace(form.action)) return "fail";
+        if (string.IsNullOrWhiteSpace(form.action)) return "fail";
 
         //if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
@@ -43,6 +43,19 @@ public class MainController
 
             case "get_info_by_id":
                 return JsonSerializer.Serialize(await AccountHelper.GetInfoById(form.uniq_id));
+
+            case "get_users_info_by_param":
+                return JsonSerializer.Serialize(await AccountHelper.Test2()); //ToDo
+
+            case "get_all_short_info_by_id":
+                return JsonSerializer.Serialize(await AccountHelper.GetShortInfoById());
+
+            // Friends
+            case "update_friends_info": 
+                return JsonSerializer.Serialize(new Dictionary<string, string>()); //ToDo
+
+            case "possible_friends_list": 
+                return JsonSerializer.Serialize(new Dictionary<string, string>()); //ToDo
 
             case "time_in_match":
                 await AccountHelper.UpdateInfo(form);

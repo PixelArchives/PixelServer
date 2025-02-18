@@ -23,11 +23,29 @@ public class ActionForm
     ///<summary>App version, for some reason formated in this way: $"{platform}:{appver}"</summary>
     public string? app_version { get; set; }
 
+    ///<summary>ToD.o</summary>
+    public string? ids { get; set; }
+
+    ///<summary>Player Rank.</summary>
+    public string? rank { get; set; }
+
+    ///<summary>ToDo.</summary>
+    public string? platform_id { get; set; }
+
+    ///<summary>ToDo.</summary>
+    public string? version { get; set; }
+
     ///<summary>ToDo</summary>
     public string? param { get; set; }
 
     ///<summary>Use with HashHelper.</summary>
     public string? auth { get; set; }
+
+    ///<summary>Is reqeusted from friends scene?</summary>
+    public int? from_friends { get; set; }
+
+    ///<summary>Private messages from chat.</summary>
+    public string? private_messages { get; set; }
 
     ///<summary>Player's level</summary>
     public int? level { get; set; }
