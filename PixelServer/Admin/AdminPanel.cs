@@ -19,7 +19,7 @@ public static class AdminPanel
         {
             if (noInput)
             {
-                await Task.Yield();
+                await Task.Delay(100);
 
                 if (Console.KeyAvailable && Console.ReadKey(true).KeyChar == '/')
                 {
