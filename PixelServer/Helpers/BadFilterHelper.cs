@@ -68,9 +68,8 @@ public static class BadFilterHelper
 
             using var db = await Db.GetOpen();
 
-            using MySqlCommand command = new("INSERT INTO `badfilter` (value, is_symbol) VALUES (@value, @is_symbol);", db);
+            using MySqlCommand command = new("INSERT INTO `badfilter` (value) VALUES (@value);", db);
             command.Parameters.AddWithValue("@value", value);
-            command.Parameters.AddWithValue("@is_symbol", is_symbol ? 1 : 0);
 
             await command.ExecuteNonQueryAsync();
 
