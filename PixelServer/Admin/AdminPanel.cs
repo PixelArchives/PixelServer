@@ -41,7 +41,7 @@ public static class AdminPanel
     }
 
 
-    static async Task OnCommand(string? command)
+    public static async Task OnCommand(string? command)
     {
         if (string.IsNullOrWhiteSpace(command)) return;
 
@@ -51,13 +51,15 @@ public static class AdminPanel
         {
             case "?": LogManual(); return;
             case "clear": Console.Clear(); return;
-            case AdminConsts.ban: await AdminUtils.BanOrUnban(command); return;
-            case AdminConsts.unban: await AdminUtils.BanOrUnban(command); return;
-            case "version": await AdminUtils.ModGameVer(command); return;
-            case "badfilter": await AdminUtils.BadFilter(command); return;
         }
 
-        Console.WriteLine($"Unknown command \"{command}\", input '?' for help");
+        if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);
+        else if (command.StartsWith(AdminConsts.unban)) await AdminUtils.BanOrUnban(command);
+        else if (command.StartsWith("version")) await AdminUtils.ModGameVer(command);
+
+        else if (command.StartsWith("badfilter")) await AdminUtils.BadFilter(command);
+
+        else Console.WriteLine($"Unknown command \"{command}\", input '?' for help");
     }
 
     static void LogManual()
