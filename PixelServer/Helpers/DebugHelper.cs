@@ -5,29 +5,42 @@ namespace PixelServer.Helpers;
 
 public static class DebugHelper
 {
-    public static void Log(string message, bool skipLine = false)
+    ///<summary>Logs message without any additional text.</summary>
+    public static void Log(string message, ConsoleColor color = ConsoleColor.White)
     {
-        if (!Admin.AdminPanel.noInput) return;
+        if (Admin.AdminPanel.isTyping) return;
 
-        if (string.IsNullOrEmpty(message)) return;
+        if (string.IsNullOrEmpty(message))
+        {
+            LogWarning("The message was empty.");
+            return;
+        }
 
-        if (skipLine) message += "\n";
-
+        Console.ForegroundColor = color;
         Console.WriteLine(message);
-    }
-
-    public static void LogError(string message, bool skipLine = false)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Log(message, skipLine);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public static void LogWarning(string message, bool skipLine = false)
+    public static void LogWarning(string message)
+        => Log(message, ConsoleColor.Yellow);
+
+    public static void LogError(string message)
+        => Log(message, ConsoleColor.Red);
+
+    ///<summary>Logs message with [message] (from exception) and [stack trace]</summary>
+    public static void LogException(string message, Exception ex)
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Log(message, skipLine);
-        Console.ForegroundColor = ConsoleColor.White;
+        Log(message, ConsoleColor.Red);
+        Log($"[message]: {ex.Message}", ConsoleColor.Red);
+        Log($"[stack trace]: {ex.StackTrace}", ConsoleColor.Red);
+    }
+
+    ///<summary>Logs message with "[EXCEPTION]:", [message] and [stack trace]</summary>
+    public static void LogException(Exception ex)
+    {
+        Log("[EXCEPTION]:");
+        Log($"[message]: {ex.Message}", ConsoleColor.Red);
+        Log($"[stack trace]: {ex.StackTrace}", ConsoleColor.Red);
     }
 
     ///<summary>This is for debbugging purposes, it floods console, not recommended to use.</summary>
@@ -58,8 +71,6 @@ public static class DebugHelper
         builder.AppendLine($"token={form.token}");
         builder.AppendLine("----- End");
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Log(builder.ToString(), true);
-        Console.ForegroundColor = ConsoleColor.White;
+        Log("\n" + builder.ToString(), ConsoleColor.Green);
     }
 }

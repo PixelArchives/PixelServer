@@ -12,9 +12,9 @@ public static class HashHelper
 
     public static bool IsValid(ActionForm form)
     {
-        return true;
+        //return true;
 
-        /*if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
+        if (string.IsNullOrEmpty(form.auth) || string.IsNullOrEmpty(form.action)) return false;
 
         string? text2 = form.action == "get_player_online" ? "*:*.*.*"
                      : (form.platform != null ? $"{(int)form.platform}:{form.app_version}" : null);
@@ -26,14 +26,15 @@ public static class HashHelper
         if (text2 == null || text == null)
             return false;
 
-        string s = text2 + text + form.action; //string.Concat(text2, text, form.action);
+        //string s = text2 + text + form.action; //string.Concat(text2, text, form.action);
+        string s = string.Concat(text2, text, form.action);
         DebugHelper.Log("Hashing: " + "\"" + s + "\"");
         byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(s));
         string text3 = BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
 
         DebugHelper.Log($"Input hash: {form.auth} Computed hash: {text3}");
 
-        return form.auth == text3;*/
+        return form.auth == text3;
         // Rewrite this shit cuz PG3D request logic is fucking retarded
     }
 

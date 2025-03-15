@@ -5,7 +5,7 @@ namespace PixelServer.Admin;
 ///<summary>Main code for Admin Panel</summary>
 public static class AdminPanel
 {
-    public static bool noInput = true;
+    public static bool isTyping { get; private set; }
 
     // Im writing console app almost for the first time dont blame me for that awful code.
     public static async Task Run()
@@ -17,13 +17,13 @@ public static class AdminPanel
 
         while (true)
         {
-            if (noInput)
+            if (!isTyping)
             {
                 await Task.Delay(100);
 
                 if (Console.KeyAvailable && Console.ReadKey(true).KeyChar == '/')
                 {
-                    noInput = false;
+                    isTyping = true;
                     Console.CursorVisible = true;
                     Console.WriteLine("Input command....");
                 }
@@ -32,11 +32,10 @@ public static class AdminPanel
 
             string? input = Console.ReadLine();
 
-            noInput = true;
+            isTyping = false;
             Console.CursorVisible = false;
 
             await OnCommand(input);
-
         }
     }
 

@@ -19,7 +19,7 @@ public static class AdminUtils
         }
         catch (Exception ex)
         {
-            DebugHelper.LogError($"Couldn't execute command. Ex: {ex.Message}");
+            DebugHelper.LogException($"Couldn't execute command.", ex);
             return;
         }
 
@@ -42,11 +42,11 @@ public static class AdminUtils
         {
             if (vals[1] == "add") await BadFilterHelper.TryAddValue(vals[2]);
             else if (vals[1] == "remove") await BadFilterHelper.TryRemoveValue(vals[2]);
-            else DebugHelper.LogWarning("Unable to parse parameter [1]");
+            else DebugHelper.LogWarning("Unable to parse second argument]");
         }
         catch (Exception ex)
         {
-            DebugHelper.LogError($"Couldn't add value. Ex: {ex}");
+            DebugHelper.LogException($"Couldn't add value", ex);
         }
     }
 
@@ -96,12 +96,12 @@ public static class AdminUtils
     {
         if (ammount > max)
         {
-            DebugHelper.LogWarning("Too much arguments");
+            DebugHelper.LogWarning("Too much arguments.");
             return false;
         }
         else if (ammount < min)
         {
-            DebugHelper.LogWarning("Too few arguments");
+            DebugHelper.LogWarning("Too few arguments.");
             return false;
         }
 

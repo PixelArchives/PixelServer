@@ -12,9 +12,11 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
+        //return await FriendsHelper.UpdateFriendsInfo(7); //for debugging requests trough browser
+
         if (string.IsNullOrWhiteSpace(form.action)) return "fail";
 
-        //if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
+        if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
 #if DEBUG
         DebugHelper.Log(form);
@@ -22,12 +24,11 @@ public class MainController
 
         switch (form.action)
         {
-            // Game Version Checks
             case "check_version":
-                return VersionHelper.IsValid(form.app_version) ? "valid" : "no";
+                return VersionHelper.IsValid(form.app_version) ? "yes" : "no";
 
             case "check_shop_version":
-                return VersionHelper.IsValid(form.app_version) ? "valid" : "no";
+                return VersionHelper.IsValid(form.app_version) ? "yes" : "no";
 
             // Account creating and etc
             case "create_player_intent":
@@ -36,8 +37,8 @@ public class MainController
             case "create_player":
                 long id = await AccountHelper.CreateAccount(form.token);
                 return id.ToString();
-            
-                // Account info getting.
+
+#region Account info getting
             case "start_check":
                 return await AccountHelper.GetOrCreate(form.uniq_id);
 
@@ -49,8 +50,9 @@ public class MainController
 
             case "get_all_short_info_by_id":
                 return JsonSerializer.Serialize(await AccountHelper.GetShortInfoById());
+#endregion
 
-            // Friends
+#region friends
             case "update_friends_info": 
                 return await FriendsHelper.UpdateFriendsInfo(form.uniq_id); //ToDo
 
@@ -59,7 +61,7 @@ public class MainController
 
             case "friend_request":
                 return await FriendsHelper.TrySendFriendRequest(form.id, form.whom) ? "ok" : "fail";
-
+#endregion
             case "time_in_match":
                 await AccountHelper.UpdateInfo(form);
                 return "ok";
