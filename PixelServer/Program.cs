@@ -41,7 +41,7 @@ public class Program
             }
             catch (Exception ex)
             {
-                DebugHelper.LogException("Unable to connect to database", ex);
+                DebugHelper.LogException("Unable to connect to database", ex, false);
                 DebugHelper.Log("Press any key to retry");
                 Console.ReadKey(true);
             }
@@ -54,7 +54,7 @@ public class Program
 
         app.MapControllers();
 
-        AdminPanel.Run();
+        _ = AdminPanel.Run();
 
         app.Run();
     }
@@ -62,11 +62,11 @@ public class Program
     private static async Task InitDatabase()
     {
         Stopwatch watch = Stopwatch.StartNew();
-        DebugHelper.LogInfo("Initing Databese");
+        DebugHelper.Log("Initing Databese");
 
         await Db.Init();
 
         watch.Stop();
-        DebugHelper.LogInfo($"Database Inited, time: {watch.Elapsed}");
+        DebugHelper.Log($"Database Inited, time: {watch.Elapsed}");
     }
 }

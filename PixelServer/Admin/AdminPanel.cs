@@ -39,7 +39,6 @@ public static class AdminPanel
         }
     }
 
-
     public static async Task OnCommand(string? command)
     {
         if (string.IsNullOrWhiteSpace(command)) return;
