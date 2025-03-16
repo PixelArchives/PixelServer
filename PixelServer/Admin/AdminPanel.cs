@@ -73,6 +73,7 @@ public static class AdminPanel
         builder.AppendLine("-");
         builder.AppendLine($"{AdminConsts.ban} {{long:id}}: Bans player.");
         builder.AppendLine($"{AdminConsts.unban} {{long:id}}: Unbans player.");
+        builder.AppendLine("version check: Gets version list from database.");
         builder.AppendLine("version add/delete: Modifies list of allowed game versions.");
         builder.AppendLine("-");
         builder.AppendLine("badfilter log: Logs allbad words/symbols in database.");

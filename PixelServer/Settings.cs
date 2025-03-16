@@ -11,9 +11,6 @@ public static class Settings
 
     // Etc settings
 
-    ///<summary>Enable bad word/symbol filtering.</summary>
-    public const bool badWordFiltering = true;
-
     ///<summary>Actions excluded from hash checking.</summary>
     public static readonly string[] excludeActionsFormHashing = ["check_version"];
 }

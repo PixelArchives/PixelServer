@@ -41,7 +41,7 @@ public static class BadFilterHelper
                 DebugHelper.LogError($"Exception on parsing BadWords: {ex}");
             }
         }
-
+        
         cache = result;
 
         return cache;
@@ -50,12 +50,6 @@ public static class BadFilterHelper
     ///<summary>Adds value to the database and cache, if <paramref name="is_symbol"/> lenght of value MUST BE 1, otherwise returns with warning.</summary>
     public static async Task TryAddValue(string value)
     {
-        if (!Settings.badWordFiltering)
-        {
-            DebugHelper.LogWarning("Warning: Unable to add bad word, BadWordFiltering is disabled.");
-            return;
-        }
-
         try
         {
             if (string.IsNullOrEmpty(value) || value.Length > 255)

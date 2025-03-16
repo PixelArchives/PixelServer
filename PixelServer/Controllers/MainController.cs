@@ -16,10 +16,11 @@ public class MainController
 
         if (string.IsNullOrWhiteSpace(form.action)) return "fail";
 
-        if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
+        // IN DEVELOPMENT
+        //if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
 #if DEBUG
-        DebugHelper.Log(form);
+        //DebugHelper.Log(form);
 #endif
 
         switch (form.action)
