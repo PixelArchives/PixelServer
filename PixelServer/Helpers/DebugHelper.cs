@@ -21,11 +21,9 @@ public static class DebugHelper
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public static void LogWarning(string message)
-        => Log(message, ConsoleColor.Yellow);
+    public static void LogWarning(string msg) => Log(msg, ConsoleColor.Yellow);
 
-    public static void LogError(string message)
-        => Log(message, ConsoleColor.Red);
+    public static void LogError(string msg) => Log(msg, ConsoleColor.Red);
 
     ///<summary>Logs message with [message] (from exception) and [stack trace]</summary>
     public static void LogException(string message, Exception ex)
@@ -36,19 +34,11 @@ public static class DebugHelper
     }
 
     ///<summary>Logs message with [message] (from exception) and [stack trace]</summary>
-    public static void LogException(string message, Exception ex, bool includeStackTrace)
+    public static void LogException(string message, Exception ex, bool includeStackTrace = true)
     {
         Log(message, ConsoleColor.Red);
         Log($"[message]: {ex.Message}", ConsoleColor.Red);
         if (includeStackTrace) Log($"[stack trace]: {ex.StackTrace}", ConsoleColor.Red);
-    }
-
-    ///<summary>Logs message with "[EXCEPTION]:", [message] and [stack trace]</summary>
-    public static void LogException(Exception ex)
-    {
-        Log("[EXCEPTION]:");
-        Log($"[message]: {ex.Message}", ConsoleColor.Red);
-        Log($"[stack trace]: {ex.StackTrace}", ConsoleColor.Red);
     }
 
     ///<summary>This is for debbugging purposes, it floods console, not recommended to use.</summary>
