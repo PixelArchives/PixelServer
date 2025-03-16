@@ -20,7 +20,7 @@ public class MainController
         //if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
 
 #if DEBUG
-        //DebugHelper.Log(form);
+        DebugHelper.Log(form);
 #endif
 
         switch (form.action)
@@ -46,8 +46,14 @@ public class MainController
             case "get_info_by_id":
                 return JsonSerializer.Serialize(await AccountHelper.GetInfoById(form.uniq_id));
 
+            case "update_player":
+                await AccountHelper.UpdateInfo(form);
+                return "ok";
+
             case "get_users_info_by_param":
-                return JsonSerializer.Serialize(await AccountHelper.Test2()); //ToDo
+                string r = JsonSerializer.Serialize(await AccountHelper.GetByParam(form.param));
+                DebugHelper.Log(r);
+                return r;
 
             case "get_all_short_info_by_id":
                 return JsonSerializer.Serialize(await AccountHelper.GetShortInfoById());
@@ -64,8 +70,8 @@ public class MainController
                 return await FriendsHelper.TrySendFriendRequest(form.id, form.whom) ? "ok" : "fail";
 #endregion
             case "time_in_match":
-                await AccountHelper.UpdateInfo(form);
-                return "ok";
+                //await AccountHelper.UpdateInfo(form);
+                return "fail";
 
             // Misc
             case "get_time": 

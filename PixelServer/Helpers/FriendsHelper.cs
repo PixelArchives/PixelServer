@@ -6,7 +6,7 @@ namespace PixelServer.Helpers;
 public static class FriendsHelper
 {
     /// <summary>update_friends_info.</summary>
-    /// <param name="id">playre's id</param>
+    /// <param name="id">player's id</param>
     /// <returns>returns bunch of info related to friends.</returns>
     public static async Task<string> UpdateFriendsInfo(long? id)
     {

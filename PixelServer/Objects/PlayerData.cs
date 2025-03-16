@@ -3,7 +3,7 @@
 /// <summary>Player Data used in GetInfoById/Param and etc</summary>
 public class PlayerData
 {
-    public long? id { get; set; }
+    public long id { get; set; }
     public string? nick { get; set; }
     public string? rank { get; set; }
     public string? skin { get; set; }

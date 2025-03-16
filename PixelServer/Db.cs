@@ -37,9 +37,11 @@ public static class Db
         result.AppendLine("CREATE TABLE IF NOT EXISTS `accounts`");
         result.Append("("); // opening
         result.Append("`id` BIGINT AUTO_INCREMENT PRIMARY KEY,");
+        result.Append("`nick` VARCHAR(255) NOT NULL,");
+        result.Append("`skin` VARCHAR(255) NOT NULL,");
         result.Append("`token` VARCHAR(255) NOT NULL,");
         result.Append("`device` VARCHAR(255) NOT NULL,");
-        result.Append("`level` INT NOT NULL DEFAULT '0',");
+        result.Append("`rank` INT NOT NULL DEFAULT '0',");
         result.Append("`paying` BOOLEAN NOT NULL DEFAULT '0',");
         result.Append("`developer` BOOLEAN NOT NULL DEFAULT '0',");
         result.Append("`banned` BOOLEAN NOT NULL DEFAULT 0,");

@@ -39,27 +39,30 @@ public static class DebugHelper
         StringBuilder builder = new();
 
         builder.AppendLine("----- Action Log");
-        builder.AppendLine($"action={form.action}");
-        builder.AppendLine($"platform={form.platform}");
-        builder.AppendLine($"mode={form.mode}");
-        builder.AppendLine($"time={form.time}");
-        builder.AppendLine($"uniq_id={form.uniq_id}");
-        builder.AppendLine($"device={form.device}");
-        builder.AppendLine($"app_version={form.app_version}");
-        builder.AppendLine($"id={form.id}");
-        builder.AppendLine($"whom={form.whom}");
-        builder.AppendLine($"ids={form.ids}");
-        builder.AppendLine($"rank={form.rank}");
-        builder.AppendLine($"platform_id={form.platform_id}");
-        builder.AppendLine($"version={form.version}");
-        builder.AppendLine($"param={form.param}");
-        builder.AppendLine($"auth={form.auth}");
-        builder.AppendLine($"from_friends={form.from_friends}");
+        if (!string.IsNullOrEmpty(form.action)) builder.AppendLine($"action={form.action}");
+        if (form.platform != null) builder.AppendLine($"platform={form.platform}");
+        if (!string.IsNullOrEmpty(form.mode)) builder.AppendLine($"mode={form.mode}");
+        if (!string.IsNullOrEmpty(form.time)) builder.AppendLine($"time={form.time}");
+        if (form.uniq_id != null) builder.AppendLine($"uniq_id={form.uniq_id}");
+        if (!string.IsNullOrEmpty(form.device)) builder.AppendLine($"device={form.device}");
+        if (!string.IsNullOrEmpty(form.app_version)) builder.AppendLine($"app_version={form.app_version}");
+        if (form.id != null) builder.AppendLine($"id={form.id}");
+        if (!string.IsNullOrEmpty(form.nick)) builder.AppendLine($"nick={form.nick}");
+        if (!string.IsNullOrEmpty(form.skin)) builder.AppendLine($"skin={form.skin}");
+        if (form.whom != null) builder.AppendLine($"whom={form.whom}");
+        if (!string.IsNullOrEmpty(form.ids)) builder.AppendLine($"ids={form.ids}");
+        if (!string.IsNullOrEmpty(form.rank)) builder.AppendLine($"rank={form.rank}");
+        if (!string.IsNullOrEmpty(form.platform_id)) builder.AppendLine($"platform_id={form.platform_id}");
+        if (!string.IsNullOrEmpty(form.version)) builder.AppendLine($"version={form.version}");
+        if (!string.IsNullOrEmpty(form.param)) builder.AppendLine($"param={form.param}");
+        if (!string.IsNullOrEmpty(form.auth)) builder.AppendLine($"auth={form.auth}");
+        if (form.from_friends != null) builder.AppendLine($"from_friends={form.from_friends}");
+
         builder.AppendLine($"private_messages=Exist: {form.private_messages != null}");
-        builder.AppendLine($"level={form.level}");
-        builder.AppendLine($"paying={form.paying}");
-        builder.AppendLine($"token={form.token}");
-        builder.AppendLine("----- End");
+
+        if (form.paying != null) builder.AppendLine($"paying={form.paying}");
+        if (!string.IsNullOrEmpty(form.token)) builder.AppendLine($"token={form.token}");
+        if (!string.IsNullOrEmpty(form.action)) builder.AppendLine("----- End");
 
         Log("\n" + builder.ToString(), ConsoleColor.Green);
     }

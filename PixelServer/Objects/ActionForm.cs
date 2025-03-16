@@ -26,13 +26,19 @@ public class ActionForm
     ///<summary>Player's ID</summary>
     public long? id { get; set; }
 
+    ///<summary>Player's nickname</summary>
+    public string? nick { get; set; }
+
+    ///<summary>Player's skin</summary>
+    public string? skin { get; set; }
+
     ///<summary>ID whoever player is interacting with.</summary>
     public long? whom { get; set; }
 
     ///<summary>ToDo</summary>
     public string? ids { get; set; }
 
-    ///<summary>Player Rank.</summary>
+    ///<summary>Player's level.</summary>
     public string? rank { get; set; }
 
     ///<summary>ToDo.</summary>
@@ -52,9 +58,6 @@ public class ActionForm
 
     ///<summary>Private messages from chat.</summary>
     public string? private_messages { get; set; }
-
-    ///<summary>Player's level</summary>
-    public int? level { get; set; }
     
     ///<summary>Is user paying?</summary>
     public int? paying { get; set; }

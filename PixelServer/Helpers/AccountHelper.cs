@@ -125,6 +125,39 @@ public static class AccountHelper
     #endregion
 
     #region Player Info
+
+    public static async Task UpdateInfo(ActionForm form)
+    {
+        try
+        {
+            if (form.id == null) return;
+
+            StringBuilder commandBuilder = new();
+
+            commandBuilder.AppendLine("UPDATE `accounts`");
+            commandBuilder.AppendLine("SET `nick` = @nick,");
+            commandBuilder.AppendLine("`rank` = @rank,");
+            if (!string.IsNullOrEmpty(form.skin)) commandBuilder.AppendLine("`skin` = @skin,");
+            commandBuilder.AppendLine("`paying` = @paying");
+            commandBuilder.AppendLine("WHERE `id` = @id;");
+
+            using var db = await Db.GetOpen();
+
+            using var command = new MySqlCommand(commandBuilder.ToString(), db);
+            command.Parameters.AddWithValue("@nick", form.nick);
+            command.Parameters.AddWithValue("@rank", form.rank);
+            command.Parameters.AddWithValue("@paying", form.paying);
+            command.Parameters.AddWithValue("@id", form.uniq_id);
+            if (!string.IsNullOrEmpty(form.skin)) command.Parameters.AddWithValue("@skin", form.skin);
+
+            await command.ExecuteNonQueryAsync();
+        }
+        catch (Exception ex)
+        {
+            DebugHelper.LogException("Error on updating the player info", ex);
+        }
+    }
+
     public static async Task<PlayerData?> GetInfoById(long? id)
     {
         using var db = await Db.GetOpen();
@@ -134,34 +167,7 @@ public static class AccountHelper
 
         using var reader = await command.ExecuteReaderAsync();
 
-        if (await reader.ReadAsync())
-        {
-            // 0 = Defs.RatingDeathmatch
-            // Why the fuck 1 isnt used.
-            // 2 = Defs.RatingTeamBattle
-            // 3 = Defs.RatingHunger
-            // 4 = Defs.RatingCapturePoint
-            PlayerData result = new()
-            {
-                id = Convert.ToInt64(reader["id"]),
-                nick = "Database i guess",
-                rank = "22",
-                skin = "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",
-                clan_name = "Database Test",
-                clan_logo = "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAcElEQVQYGWNkYGD4D8QM\\/\\/+DKRATDBgZGcE0C6ObGsO\\/nTcZDquJQqUgFEgDk7s6Awuy5Jm97AhFQA3\\/br1mYIGJgCRNnH\\/CuHCaCc7CwYCbANKNbAXMNJBTge75j+FIW6D9IJ+ArQAxQAIwAJME8QEJJSYTV5YWAgAAAABJRU5ErkJggg==",
-                clan_creator_id = 22,
-                wincount =
-                {
-                    {0,  Convert.ToInt32(reader["RatingDeathmatch"])},
-                    //{1,  Convert.ToInt32(reader["TemporaryValue"])},
-                    {2,  Convert.ToInt32(reader["RatingTeamBattle"])},
-                    {3,  Convert.ToInt32(reader["RatingHunger"])},
-                    {4,  Convert.ToInt32(reader["RatingCapturePoint"])}
-                }
-            };
-
-            return result;
-        }
+        if (await reader.ReadAsync()) return DatabaseToPlayerData(reader);
 
         return null;
     }
@@ -174,43 +180,65 @@ public static class AccountHelper
 
         return result;
     }
-    
 
-    public static async Task<List<PlayerData>> Test2()
+    public static async Task<List<PlayerData>> GetByParam(string? param)
     {
         List<PlayerData> result = new();
 
-        result.Add(await GetInfoById(1));
-        //result.Add(await GetInfoById(2));
-        //result.Add(await GetInfoById(3));
-        //result.Add(await GetInfoById(4));
-        //result.Add(await GetInfoById(5));
+        if (param == null) return result;
+
+        if (long.TryParse(param, out long res))
+        {
+            PlayerData? d = await GetInfoById(res);
+
+            if (d != null) result.Add(d);
+        }
+
+        using var db = await Db.GetOpen();
+
+        using var command = new MySqlCommand("SELECT * FROM `accounts` WHERE `nick` LIKE @nick;", db);
+
+        command.Parameters.AddWithValue("@nick", $"%{param}%");
+
+        var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync()) result.Add(DatabaseToPlayerData(reader));
 
         return result;
     }
 
-    public static async Task UpdateInfo(ActionForm form)
+    public static async Task<string> GetByParamPost(string? param)
     {
-        if (form.uniq_id == null) return;
-
-        StringBuilder builder = new();
-
-        builder.Append("UPDATE `accounts` SET "); 
-
-        if (form.paying != null) builder.Append("`paying` = @paying");
-        if (form.developer != null) builder.Append("`developer` = @developer");
-
-        builder.Append("WHERE `id` = @id;");
-
-        using var db = await Db.GetOpen();
-
-        using MySqlCommand command = new(builder.ToString(), db);
-        command.Parameters.AddWithValue("@id", form.uniq_id);
-
-        if (form.paying != null) command.Parameters.AddWithValue("@paying", form.paying);
-        if (form.developer != null) command.Parameters.AddWithValue("@developer", form.developer);
-
-        await command.ExecuteNonQueryAsync();
+        List<PlayerData> data = new();
+        return null;
     }
     #endregion
+
+    static PlayerData DatabaseToPlayerData(MySqlDataReader reader)
+    {
+        // 0 = Defs.RatingDeathmatch
+        // Why the fuck 1 isnt used.
+        // 2 = Defs.RatingTeamBattle
+        // 3 = Defs.RatingHunger
+        // 4 = Defs.RatingCapturePoint
+        return
+            new()
+            {
+                id = Convert.ToInt64(reader["id"]),
+                nick = Convert.ToString(reader["nick"]),
+                rank = Convert.ToString(reader["rank"]),
+                skin = Convert.ToString(reader["skin"]),
+                //clan_name = "Database Test",
+                //clan_logo = Convert.ToString(reader["nick"]),
+                clan_creator_id = 22,
+                wincount =
+                    {
+                        {0,  Convert.ToInt32(reader["RatingDeathmatch"])},
+                        //{1,  Convert.ToInt32(reader["TemporaryValue"])},
+                        {2,  Convert.ToInt32(reader["RatingTeamBattle"])},
+                        {3,  Convert.ToInt32(reader["RatingHunger"])},
+                        {4,  Convert.ToInt32(reader["RatingCapturePoint"])}
+                    }
+            };
+    }
 }
