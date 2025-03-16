@@ -147,7 +147,7 @@ public static class VersionHelper
         }
         catch (Exception ex)
         {
-            DebugHelper.LogError($"Exception on removing allowed version, ex: {ex.Message}");
+            DebugHelper.LogException($"Exception on removing allowed version", ex);
         }
     }
 

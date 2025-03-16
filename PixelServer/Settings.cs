@@ -14,7 +14,7 @@ public static class Settings
     ///<summary>Enable bad word/symbol filtering.</summary>
     public const bool badWordFiltering = true;
 
-    ///<summary>Sets it as allowed game version if VersionHelper.allowedGameVersions is null.</summary>
+    ///<summary>Sets it as allowed game version if VersionHelper.allowedGameVersions is null or empty.</summary>
     public const string defaultGameVersion = "10.3.1";
 
     ///<summary>Actions excluded from hash checking.</summary>

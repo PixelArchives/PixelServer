@@ -26,14 +26,6 @@ public static class DebugHelper
     public static void LogError(string msg) => Log(msg, ConsoleColor.Red);
 
     ///<summary>Logs message with [message] (from exception) and [stack trace]</summary>
-    public static void LogException(string message, Exception ex)
-    {
-        Log(message, ConsoleColor.Red);
-        Log($"[message]: {ex.Message}", ConsoleColor.Red);
-        Log($"[stack trace]: {ex.StackTrace}", ConsoleColor.Red);
-    }
-
-    ///<summary>Logs message with [message] (from exception) and [stack trace]</summary>
     public static void LogException(string message, Exception ex, bool includeStackTrace = true)
     {
         Log(message, ConsoleColor.Red);
