@@ -6,37 +6,44 @@ namespace PixelServer.Helpers;
 
 public static class VersionHelper
 {
-    public static List<string> allowedVersions { get; private set; } = new();
+    // Youre not supposed to destroy it.
+    public static readonly List<string> allowedVersions = new();
 
-    ///<summary>RUN AT SERVER START! Gets game version from config database, if not set, sets to <see cref="Settings.defaultGameVersion"/></summary>
-    public static async Task CheckVersion()
+    public static async Task CheckVersions()
     {
-        string? result = await GetVersionString();
-
-        if (string.IsNullOrEmpty(result))
+        try
         {
-            await AddVersion(Settings.defaultGameVersion);
+            using var db = await Db.GetOpen();
+
+            using MySqlCommand command = new("SELECT `value` FROM `config` WHERE `key` = @key", db);
+            command.Parameters.AddWithValue("@key", Consts.configGameVersionKey);
+
+            var reader = await command.ExecuteReaderAsync();
+
+            allowedVersions.Clear();
+
+            while (reader.Read())
+            {
+                allowedVersions.Add(reader.GetString(0));
+            }
+
+            if (allowedVersions.Count == 0)
+            {
+                DebugHelper.LogWarning("allowedVersions LENGHT IS 0, GAME IS CURRENTLY ACCEPTING ALL VERSIONS");
+                DebugHelper.LogWarning("USE 'version add {ver}' TO ADD VERSION");
+            }
+            else DebugHelper.Log($"Version check finished, resulted {allowedVersions.Count} versions allowed.");
         }
-        else
+        catch (Exception ex)
         {
-            string res = Convert.ToString(result);
-
-            List<string> verions = res.Split('#').ToList();
-
-            allowedVersions = verions;
+            DebugHelper.LogException($"Exception on checking verions: ", ex);
         }
     }
 
     ///<summary>Checks if <see cref="allowedVersions"/> contains <paramref name="version"/></summary>
     public static bool IsValid(string? version)
     {
-        if (allowedVersions.Count == 0)
-        {
-            DebugHelper.LogError("allowedVersions LENGHT IS 0, GAME IS CURRENTLY UNACCESABLE");
-            DebugHelper.LogWarning("USE 'version add {ver}' TO ADD VERSION");
-            return false;
-        }
-        else if (version == null) return false;
+        if (allowedVersions.Count == 0) return true;
 
         // The actual version is after :, first thing is platform (number, Platform.cs)
         string actualVer = version.Split(':')[1];
@@ -54,33 +61,31 @@ public static class VersionHelper
         {
             if (allowedVersions.Contains(version))
             {
-                DebugHelper.LogWarning("List already contains the same version.");
-                if (!force) return;
-            }
-            else allowedVersions.Add(version);
+                DebugHelper.LogWarning("allowedVersions already contains this value.");
 
-            string? result = await GetVersionString();
+                if (!force)
+                {
+                    DebugHelper.LogWarning("Aborting.");
+                    return;
+                }
+            }
 
             using var db = await Db.GetOpen();
 
-            if (string.IsNullOrEmpty(result)) result = version;
-            else result += $"#{version}";
-
-            using MySqlCommand command = new(@"
-                INSERT INTO `config` (`key`, `value`) 
-                VALUES (@key, @ver)
-                ON DUPLICATE KEY UPDATE `value` = @ver;", db);
-
+            //using var command = new MySqlCommand("SELECT * FROM `config` WHERE `key` = @key;", db);
+            using var command = new MySqlCommand("INSERT INTO `config` (`key`, `value`) VALUES (@key, @value)", db);
             command.Parameters.AddWithValue("@key", Consts.configGameVersionKey);
-            command.Parameters.AddWithValue("@ver", result);
+            command.Parameters.AddWithValue("@value", version);
 
-            await command.ExecuteNonQueryAsync();
+            int affected = await command.ExecuteNonQueryAsync();
 
-            DebugHelper.Log("Added value succesfully");
+            allowedVersions.Add(version);
+
+            DebugHelper.Log($"Done. Rows affected: {affected}");
         }
         catch (Exception ex)
         {
-            DebugHelper.LogError($"Exception on adding allowed version, ex: {ex.Message}");
+            DebugHelper.LogException($"Exception on adding allowed version", ex);
         }
     }
 
@@ -94,56 +99,27 @@ public static class VersionHelper
         {
             if (!allowedVersions.Contains(version))
             {
-                DebugHelper.LogWarning("List does not contain same version.");
-                if (!force) return;
-            }
-            else allowedVersions.Remove(version);
+                DebugHelper.LogWarning("allowedVersions does not contain this value.");
 
-            string? result = await GetVersionString();
-
-            List<string> resultList = new();
-
-            if (string.IsNullOrEmpty(result))
-            {
-                DebugHelper.LogError("Unable to get allowed versions from database");
-                return;
-            }
-            else
-            {
-                resultList = result.Split('#').ToList();
-
-                if (resultList.Contains(version)) resultList.Remove(version);
-                else
+                if (!force)
                 {
-                    DebugHelper.LogWarning($"Allowed versions config didnt had {version} in it.");
+                    DebugHelper.LogWarning("Aborting.");
                     return;
                 }
             }
 
             using var db = await Db.GetOpen();
 
-            result = string.Empty;
-
-            bool isFirst = true;
-
-            foreach (string item in resultList)
-            {
-                if (!isFirst) result += '#';
-                else isFirst = false;
-
-                result += item;
-            }
-
-            using MySqlCommand command = new(@"
-                INSERT INTO `config` (`key`, `value`) VALUES (@key, @result)
-                ON DUPLICATE KEY UPDATE `value` = @result;", db);
-
+            using var command = new MySqlCommand("DELETE FROM `config` WHERE `key` = @key AND `value` = @value;", db);
             command.Parameters.AddWithValue("@key", Consts.configGameVersionKey);
-            command.Parameters.AddWithValue("@result", result);
+            command.Parameters.AddWithValue("@value", version);
 
-            await command.ExecuteNonQueryAsync();
+            int affected = await command.ExecuteNonQueryAsync();
 
-            DebugHelper.Log("Removed value succesfully");
+            if (!allowedVersions.Remove(version))
+                DebugHelper.LogWarning("Value wasnt removed succesfully from the list.\nIts recommended to call 'version check' command.");
+
+            DebugHelper.Log($"Done. Rows affected: {affected}");
         }
         catch (Exception ex)
         {
@@ -152,7 +128,7 @@ public static class VersionHelper
     }
 
     // Shortcut for getting it from database
-    static async Task<string?> GetVersionString()
+    static async Task<List<string?>> GetVersionString()
     {
         using var db = await Db.GetOpen();
 
@@ -160,6 +136,6 @@ public static class VersionHelper
 
         object? result = await command.ExecuteScalarAsync();
 
-        return Convert.ToString(result);
+        return null;// Convert.ToString(result);
     }
 }

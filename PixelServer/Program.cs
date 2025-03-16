@@ -48,7 +48,7 @@ public class Program
         }
 
         // Get game version confog from database
-        await VersionHelper.CheckVersion();
+        await VersionHelper.CheckVersions();
 
         var app = builder.Build();
 

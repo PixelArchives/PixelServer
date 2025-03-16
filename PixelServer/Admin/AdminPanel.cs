@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using PixelServer.Helpers;
+using System.Text;
 
 namespace PixelServer.Admin;
 
@@ -49,6 +50,7 @@ public static class AdminPanel
         {
             case "?": LogManual(); return;
             case "clear": Console.Clear(); return;
+            case "version check": await VersionHelper.CheckVersions(); return;
         }
 
         if (command.StartsWith(AdminConsts.ban)) await AdminUtils.BanOrUnban(command);

@@ -55,7 +55,7 @@ public static class Db
         // config
         result.AppendLine("CREATE TABLE IF NOT EXISTS `config`");
         result.Append("("); // opening
-        result.Append("`key` VARCHAR(100) NOT NULL UNIQUE,");
+        result.Append("`key` VARCHAR(255) NOT NULL,");
         result.Append("`value` VARCHAR(255) NOT NULL");
         result.Append(");"); // closing
 
