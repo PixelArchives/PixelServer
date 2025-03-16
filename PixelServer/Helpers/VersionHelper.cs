@@ -29,7 +29,7 @@ public static class VersionHelper
 
             if (allowedVersions.Count == 0)
             {
-                DebugHelper.LogWarning("allowedVersions LENGHT IS 0, GAME IS CURRENTLY ACCEPTING ALL VERSIONS");
+                DebugHelper.LogWarning("allowedVersions IS EMPTY, GAME IS CURRENTLY ACCEPTING ALL VERSIONS");
                 DebugHelper.LogWarning("USE 'version add {ver}' TO ADD VERSION");
             }
             else DebugHelper.Log($"Version check finished, resulted {allowedVersions.Count} versions allowed.");
