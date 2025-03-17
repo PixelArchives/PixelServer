@@ -44,14 +44,15 @@ public class MainController
                 return await AccountHelper.GetOrCreate(form.uniq_id);
 
             case "get_info_by_id":
-                return JsonSerializer.Serialize(await AccountHelper.GetInfoById(form.uniq_id));
+                return JSONHelper.GetInfoByIDSerializer(await AccountHelper.GetInfoById(form.uniq_id));
 
             case "update_player":
                 await AccountHelper.UpdateInfo(form);
                 return "ok";
 
             case "get_users_info_by_param":
-                string r = JsonSerializer.Serialize(await AccountHelper.GetByParam(form.param));
+                string r = JSONHelper.GetInfoByParamSerializer(await AccountHelper.GetByParam(form.param));
+                //string r = JsonSerializer.Serialize(await AccountHelper.GetByParam(form.param));
                 DebugHelper.Log(r);
                 return r;
 
