@@ -25,7 +25,7 @@ namespace PixelServer.Helpers
             }
         }
 
-        public static string PlayerDataToIdList(List<PlayerData> data)
+        public static string WrapPlayerDataToIdList(List<PlayerData> data)
         {
             JSONObject index = new();
 

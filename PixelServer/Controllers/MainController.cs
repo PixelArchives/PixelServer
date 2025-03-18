@@ -54,7 +54,7 @@ public class MainController
 
             case "get_all_short_info_by_id":
                 if (string.IsNullOrEmpty(form.ids)) return fail;
-                return JSONHelper.PlayerDataToIdList(await AccountHelper.GetShortInfoByIds(form.ids));
+                return JSONHelper.WrapPlayerDataToIdList(await AccountHelper.GetShortInfoByIds(form.ids));
             #endregion
 
             #region friends
@@ -69,7 +69,7 @@ public class MainController
 #endregion
             case "time_in_match":
                 //await AccountHelper.UpdateInfo(form);
-                return fail;
+                return fail; // ToDo
 
             // Misc
             case "get_time": return DateTime.UtcNow.ToFileTimeUtc().ToString();
