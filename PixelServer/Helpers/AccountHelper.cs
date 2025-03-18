@@ -172,11 +172,20 @@ public static class AccountHelper
         return null;
     }
 
-    public static async Task<Dictionary<long, PlayerData>> GetShortInfoById()
+    public static async Task<List<PlayerData>> GetShortInfoByIds(string idsJson)
     {
-        Dictionary<long, PlayerData> result = new();
+        List<PlayerData> result = new();
 
-        result.Add(7, await GetInfoById(7));
+        List<long> ids = JSONHelper.GetIdsList(idsJson);
+
+        foreach (long id in ids)
+        {
+            PlayerData? data = await GetInfoById(id);
+
+            if (data == null) continue;
+
+            result.Add(data);
+        }
 
         return result;
     }

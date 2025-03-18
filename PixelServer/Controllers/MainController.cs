@@ -9,12 +9,14 @@ namespace PixelServer.Controllers;
 [Route(Settings.mainRoute)]
 public class MainController
 {
+    const string fail = "fail";
+
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
         //return await FriendsHelper.UpdateFriendsInfo(7); //for debugging requests trough browser
 
-        if (string.IsNullOrWhiteSpace(form.action)) return "fail";
+        if (string.IsNullOrWhiteSpace(form.action)) return fail;
 
         // IN DEVELOPMENT
         //if (!Settings.excludeActionsFormHashing.Contains(form.action) && !HashHelper.IsValid(form)) return "fail";
@@ -25,15 +27,11 @@ public class MainController
 
         switch (form.action)
         {
-            case "check_version":
-                return VersionHelper.IsValid(form.app_version) ? "yes" : "no";
-
-            case "check_shop_version":
-                return VersionHelper.IsValid(form.app_version) ? "yes" : "no";
+            case "check_version": // Leave it like that.
+            case "check_shop_version": return VersionHelper.IsValid(form.app_version) ? "yes" : "no";
 
             // Account creating and etc
-            case "create_player_intent":
-                return await AccountHelper.CreateAccountToken();
+            case "create_player_intent": return await AccountHelper.CreateAccountToken();
 
             case "create_player":
                 long id = await AccountHelper.CreateAccount(form.token);
@@ -44,23 +42,22 @@ public class MainController
                 return await AccountHelper.GetOrCreate(form.uniq_id);
 
             case "get_info_by_id":
-                return JSONHelper.GetInfoByIDSerializer(await AccountHelper.GetInfoById(form.uniq_id));
+                //ToDo - breaks profile, when using JsonSerializer.Serialize breaks other player's profiles
+                PlayerData? data = await AccountHelper.GetInfoById(form.uniq_id);
+                if (data == null) return fail;
+                return JSONHelper.GetInfoByIDSerializer(data);
 
-            case "update_player":
-                await AccountHelper.UpdateInfo(form);
-                return "ok";
+            case "update_player": await AccountHelper.UpdateInfo(form); return string.Empty;
 
             case "get_users_info_by_param":
-                string r = JSONHelper.GetInfoByParamSerializer(await AccountHelper.GetByParam(form.param));
-                //string r = JsonSerializer.Serialize(await AccountHelper.GetByParam(form.param));
-                DebugHelper.Log(r);
-                return r;
+                return JSONHelper.GetInfoByParamSerializer(await AccountHelper.GetByParam(form.param));
 
             case "get_all_short_info_by_id":
-                return JsonSerializer.Serialize(await AccountHelper.GetShortInfoById());
-#endregion
+                if (string.IsNullOrEmpty(form.ids)) return fail;
+                return JSONHelper.PlayerDataToIdList(await AccountHelper.GetShortInfoByIds(form.ids));
+            #endregion
 
-#region friends
+            #region friends
             case "update_friends_info": 
                 return await FriendsHelper.UpdateFriendsInfo(form.uniq_id); //ToDo
 
@@ -72,13 +69,12 @@ public class MainController
 #endregion
             case "time_in_match":
                 //await AccountHelper.UpdateInfo(form);
-                return "fail";
+                return fail;
 
             // Misc
-            case "get_time": 
-                return DateTime.UtcNow.ToFileTimeUtc().ToString();
+            case "get_time": return DateTime.UtcNow.ToFileTimeUtc().ToString();
         }
 
-        return "fail";
+        return fail;
     }
 }

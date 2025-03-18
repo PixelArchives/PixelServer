@@ -26,6 +26,7 @@ public static class FriendsHelper
             result["invites_outcoming"] = invOutTask.Result;
             result["invites"] = invTask.Result;
 
+            DebugHelper.Log(System.Text.Json.JsonSerializer.Serialize(result));
             return System.Text.Json.JsonSerializer.Serialize(result);
         }
         catch (Exception ex) 
@@ -50,13 +51,13 @@ public static class FriendsHelper
             int rowsAffected = await command.ExecuteNonQueryAsync();
 
             if (rowsAffected > 0) return true;
-            else return true;
         }
         catch (Exception ex)
         {
             DebugHelper.LogError("Exception on sending friend reqeust: " + ex.Message);
-            return false;
         }
+
+        return false;
     }
 
     static async Task<List<string>> GetInvitesOutcoming(long? from)
