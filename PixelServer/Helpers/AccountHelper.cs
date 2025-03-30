@@ -9,7 +9,7 @@ public static class AccountHelper
 {
     #region Account Creation
     /// <summary>Called in "create_player_intent"</summary>
-    /// <returns></returns>
+    /// <returns>New player's token</returns>
     public static async Task<string> CreateAccountToken()
     {
         using var db = await Db.GetOpen();
@@ -21,11 +21,12 @@ public static class AccountHelper
         insertCommand.Parameters.AddWithValue("@token", token);
         await insertCommand.ExecuteNonQueryAsync();
 
-        // Get the last inserted ID
-        using MySqlCommand idCommand = new("SELECT LAST_INSERT_ID();", db);
+        // Retrieve the ID using the token
+        using MySqlCommand idCommand = new("SELECT id FROM `accounts` WHERE token = @token;", db);
+        idCommand.Parameters.AddWithValue("@token", token);
         object? result = await idCommand.ExecuteScalarAsync();
 
-        // Check if result is valid
+        // Validate result
         if (result != null && long.TryParse(result.ToString(), out long accountId))
         {
             DebugHelper.Log($"Created account with ID: {accountId}, Token: {token}");
@@ -34,6 +35,7 @@ public static class AccountHelper
 
         return "fail";
     }
+
 
     /// <summary>Updates data of account with token, was cut in 2 becase of "create_account_intent" and "create_account".</summary>
     /// <param name="token">Unique token of the player.</param>

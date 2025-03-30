@@ -1,24 +1,29 @@
 ﻿using PixelServer.Objects;
-using System.Text;
 
 namespace PixelServer.Helpers;
 
 public static class DebugHelper
 {
+
+    static readonly object logLock = new object();
+
     ///<summary>Logs message without any additional text.</summary>
     public static void Log(string message, ConsoleColor color = ConsoleColor.White)
     {
-        if (Admin.AdminPanel.isTyping) return;
-
-        if (string.IsNullOrEmpty(message))
+        lock (logLock)
         {
-            LogWarning("The message was empty.");
-            return;
-        }
+            if (Admin.AdminPanel.isTyping) return;
 
-        Console.ForegroundColor = color;
-        Console.WriteLine(message);
-        Console.ForegroundColor = ConsoleColor.White;
+            if (string.IsNullOrEmpty(message))
+            {
+                LogWarning("The message was empty.");
+                return;
+            }
+
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     public static void LogWarning(string msg) => Log(msg, ConsoleColor.Yellow);
@@ -36,7 +41,7 @@ public static class DebugHelper
     ///<summary>This is for debbugging purposes, it floods console, not recommended to use.</summary>
     public static void Log(ActionForm form)
     {
-        StringBuilder builder = new();
+        System.Text.StringBuilder builder = new();
 
         builder.AppendLine("----- Action Log");
         if (!string.IsNullOrEmpty(form.action)) builder.AppendLine($"action={form.action}");
