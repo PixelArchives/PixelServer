@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using PixelServer.Objects;
+using PixelServer.Utils;
 using System.Text;
 
 namespace PixelServer.Helpers;
@@ -215,12 +216,6 @@ public static class AccountHelper
 
         return result;
     }
-
-    public static async Task<string> GetByParamPost(string? param)
-    {
-        List<PlayerData> data = new();
-        return null;
-    }
     #endregion
 
     static PlayerData DatabaseToPlayerData(MySqlDataReader reader)
@@ -230,13 +225,14 @@ public static class AccountHelper
         // 2 = Defs.RatingTeamBattle
         // 3 = Defs.RatingHunger
         // 4 = Defs.RatingCapturePoint
+
         return
             new()
             {
                 id = Convert.ToInt64(reader["id"]),
-                nick = Convert.ToString(reader["nick"]),
-                rank = Convert.ToString(reader["rank"]),
-                skin = Convert.ToString(reader["skin"]),
+                nick = ConvertV2.SafeString(reader["nick"]),
+                rank = ConvertV2.SafeString(reader["rank"]),
+                skin = ConvertV2.SafeString(reader["skin"]),
                 //clan_name = "Database Test",
                 //clan_logo = Convert.ToString(reader["nick"]),
                 clan_creator_id = 22,

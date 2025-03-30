@@ -1,3 +1,5 @@
+#pragma warning disable 
+
 /* * * * *
  * A simple JSON Parser / builder
  * ------------------------------

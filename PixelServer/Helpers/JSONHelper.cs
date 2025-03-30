@@ -49,10 +49,22 @@ namespace PixelServer.Helpers
 
         public static string GetInfoByIDSerializer(PlayerData p)
         {
-            JSONObject index = new();
 
             JSONObject wincount = new();
+
             foreach (var v in p.wincount) wincount.Add(v.Key.ToString(), v.Value);
+
+            JSONObject index = new();
+            /*{ // For profile in main menu to not break, temporary??? //Temp
+                ["id"] = p.id,
+                ["nick"] = p.nick,
+                ["rank"] = p.rank,
+                ["skin"] = p.skin,
+                ["clan_name"] = p.clan_name,
+                ["clan_logo"] = p.clan_logo,
+                ["clan_creator_id"] = p.clan_creator_id,
+                ["wincount"] = wincount
+            };*/
 
             JSONObject playerNode = new()
             {
@@ -65,6 +77,7 @@ namespace PixelServer.Helpers
                 ["clan_creator_id"] = p.clan_creator_id,
                 ["wincount"] = wincount
             };
+
 
             index["player"] = playerNode;
 
