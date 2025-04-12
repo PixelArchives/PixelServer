@@ -232,9 +232,9 @@ public static class AccountHelper
             new()
             {
                 id = Convert.ToInt64(reader["id"]),
-                nick = ConvertV2.SafeString(reader["nick"]),
-                rank = ConvertV2.SafeString(reader["rank"]),
-                skin = ConvertV2.SafeString(reader["skin"]),
+                nick = ConvertX.SafeString(reader["nick"]),
+                rank = ConvertX.SafeString(reader["rank"]),
+                skin = ConvertX.SafeString(reader["skin"]),
                 //clan_name = "Database Test",
                 //clan_logo = Convert.ToString(reader["nick"]),
                 clan_creator_id = 22,
