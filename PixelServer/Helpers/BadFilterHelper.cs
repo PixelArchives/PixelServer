@@ -5,6 +5,7 @@ namespace PixelServer.Helpers;
 
 public static class BadFilterHelper
 {
+    // NOTE: There is no thread safety at all, adding and removing shouldnt break it tho.
     ///<summary>Cache to not open database connection every time.</summary>
     private static BadFilterContainer? cache;
 
