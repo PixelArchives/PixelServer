@@ -6,7 +6,7 @@ public class ActionForm
     ///<summary>Action being requested.</summary>
     public string? action { get; set; }
 
-    ///<summary>Platform.</summary>
+    ///<summary>Client`s platform.</summary>
     public Platform? platform { get; set; }
 
     ///<summary>Gamemode player was or currently in.</summary>
@@ -35,7 +35,7 @@ public class ActionForm
     ///<summary>ID whoever player is interacting with.</summary>
     public long? whom { get; set; }
 
-    ///<summary>ToDo</summary>
+    ///<summary>Used when getting infos by id (short) when in friend requests menu</summary>
     public string? ids { get; set; }
 
     ///<summary>Player's level.</summary>
@@ -47,7 +47,7 @@ public class ActionForm
     ///<summary>ToDo.</summary>
     public string? version { get; set; }
 
-    ///<summary>ToDo</summary>
+    ///<summary>Used when in friends, getting user list by param, which is passed here.</summary>
     public string? param { get; set; }
 
     ///<summary>Use with HashHelper.</summary>
@@ -62,9 +62,9 @@ public class ActionForm
     ///<summary>Is user paying?</summary>
     public int? paying { get; set; }
     
-    ///<summary>Is user developer?</summary>
+    ///<summary>Is user a developer?</summary>
     public int? developer { get; set; }
 
-    ///<summary>ToDo</summary>
+    ///<summary>Player's unique token generated on account creation.</summary>
     public string? token { get; set; }
 }
