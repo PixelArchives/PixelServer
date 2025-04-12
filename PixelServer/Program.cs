@@ -28,16 +28,13 @@ public class Program
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
-        bool inited = false;
-
         // MySQL init
-
-        while (!inited)
+        while (true)
         {
             try
             {
                 await InitDatabase();
-                inited = true;
+                break;
             }
             catch (Exception ex)
             {
@@ -47,7 +44,7 @@ public class Program
             }
         }
 
-        // Get game version confog from database
+        // Get game version config from database
         await VersionHelper.CheckVersions();
 
         var app = builder.Build();
