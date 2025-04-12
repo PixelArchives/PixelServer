@@ -14,8 +14,6 @@ public class MainController
     [Route("action.php")]
     public async Task<string> Action([FromForm] ActionForm form)
     {
-        //return await FriendsHelper.UpdateFriendsInfo(7); //for debugging requests trough browser
-
         if (string.IsNullOrWhiteSpace(form.action)) return fail;
 
         // IN DEVELOPMENT
